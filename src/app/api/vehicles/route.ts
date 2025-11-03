@@ -99,7 +99,11 @@ export async function GET() {
       (data || []).map(async (car) => {
         const vehicle = mapCarToVehicle(car);
 
-        // Buscar foto de perfil (prioridade) - URLs que contêm "_profile_"
+        // Prioridade de fotos:
+        // 1. Foto de perfil (_profile_) da car_photos
+        // 2. photo_url da tabela cars (já mapeado no vehicle.imagem)
+        // 3. Primeira foto disponível na car_photos (se não houver photo_url)
+
         const { data: profilePhoto, error: profileError } = await supabase
           .from('car_photos')
           .select('photo_url')
@@ -109,10 +113,10 @@ export async function GET() {
           .single();
 
         if (profilePhoto && !profileError) {
-          // Usar foto de perfil se existir
+          // 1ª prioridade: Usar foto de perfil se existir
           vehicle.imagem = profilePhoto.photo_url;
-        } else {
-          // Se não houver foto de perfil, buscar a primeira foto disponível
+        } else if (!car.photo_url || car.photo_url === '') {
+          // 3ª prioridade: Se não houver photo_url na tabela cars, buscar primeira foto disponível
           const { data: photos, error: photosError } = await supabase
             .from('car_photos')
             .select('photo_url')
@@ -122,8 +126,8 @@ export async function GET() {
           if (photos && photos.length > 0 && !photosError) {
             vehicle.imagem = photos[0].photo_url;
           }
-          // Se não houver fotos na tabela car_photos, usar photo_url da tabela cars (já mapeado)
         }
+        // 2ª prioridade: Manter photo_url da tabela cars (já mapeado no vehicle.imagem)
 
         return vehicle;
       })
