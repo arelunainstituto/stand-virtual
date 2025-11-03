@@ -108,10 +108,10 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Overlay on Hover */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <div className="flex space-x-2">
+          <div className="flex flex-wrap justify-center gap-2 px-3">
             <Link
               href={`/viaturas/${vehicle.id}`}
-              className="bg-white text-gray-900 px-4 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center"
+              className="bg-white text-gray-900 px-4 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center whitespace-nowrap min-w-[140px] justify-center"
             >
               <FiEye className="w-4 h-4 mr-2" />
               Ver Detalhes
@@ -120,7 +120,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
               href={`https://wa.me/351910048205?text=Olá! Tenho interesse no ${vehicle.marca} ${vehicle.modelo}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors flex items-center"
+              className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors flex items-center whitespace-nowrap min-w-[140px] justify-center"
             >
               <FiPhone className="w-4 h-4 mr-2" />
               WhatsApp

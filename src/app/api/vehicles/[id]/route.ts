@@ -162,7 +162,39 @@ export async function GET(
 
     // Se houver fotos na tabela car_photos, usar essas fotos
     if (photos && photos.length > 0 && !photosError) {
-      vehicle.galeria = photos.map(p => p.photo_url);
+      // Ordenar com prioridade para fotos de perfil/capa
+      const isProfile = (url: string) => {
+        const u = url.toLowerCase();
+        return (
+          u.includes('profile') ||
+          u.includes('_profile_') ||
+          u.includes('front') ||
+          u.includes('frente') ||
+          u.includes('cover') ||
+          u.includes('capa')
+        );
+      };
+
+      const sorted = photos
+        .map((p) => p.photo_url)
+        .sort((a, b) => {
+          const ap = isProfile(a) ? 0 : 1;
+          const bp = isProfile(b) ? 0 : 1;
+          return ap - bp;
+        });
+
+      vehicle.galeria = sorted;
+
+      // Definir imagem principal com a melhor foto disponível
+      const preferred = sorted.find((url) => isProfile(url));
+      if (preferred) {
+        vehicle.imagem = preferred;
+      } else if (!vehicle.imagem && sorted.length > 0) {
+        vehicle.imagem = sorted[0];
+      }
+    } else {
+      // Sem fotos em car_photos: manter photo_url da tabela cars se existir
+      // Caso contrário, imagem fica vazia e o frontend mostrará placeholder
     }
 
     return NextResponse.json({

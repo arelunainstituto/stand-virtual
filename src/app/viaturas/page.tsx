@@ -42,6 +42,16 @@ export default function ViaturasPage() {
     applyFilters(newFilters, searchTerm);
   };
 
+  // Apply search in real-time with debounce
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      applyFilters(filters, searchTerm);
+    }, 300);
+
+    return () => clearTimeout(handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
+
   const applyFilters = (currentFilters: typeof filters, currentSearch: string) => {
     let filtered = vehicles;
 
@@ -173,8 +183,18 @@ export default function ViaturasPage() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Pesquisar por marca ou modelo..."
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+                  className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                 />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => { setSearchTerm(""); applyFilters(filters, ""); }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    aria-label="Limpar busca"
+                  >
+                    <FiX className="w-5 h-5" />
+                  </button>
+                )}
               </div>
             </form>
 
@@ -182,7 +202,7 @@ export default function ViaturasPage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
+                className={`flex items-center px-4 py-2 rounded-lg transition-colors border font-medium ${Object.values(filters).some(f => f) || showFilters ? "bg-stand-primary text-white border-stand-primary hover:bg-stand-primary-dark" : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"}`}
               >
                 <FiFilter className="w-4 h-4 mr-2" />
                 Filtros
@@ -222,7 +242,7 @@ export default function ViaturasPage() {
                     <select
                       value={filters.marca}
                       onChange={(e) => handleFilterChange("marca", e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900"
                     >
                       <option value="">Todas as marcas</option>
                       {marcas.map(marca => (
@@ -241,7 +261,7 @@ export default function ViaturasPage() {
                       value={filters.precoMin}
                       onChange={(e) => handleFilterChange("precoMin", e.target.value)}
                       placeholder="Ex: 10000"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
 
@@ -254,7 +274,7 @@ export default function ViaturasPage() {
                       value={filters.precoMax}
                       onChange={(e) => handleFilterChange("precoMax", e.target.value)}
                       placeholder="Ex: 50000"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
 
@@ -268,7 +288,7 @@ export default function ViaturasPage() {
                       value={filters.anoMin}
                       onChange={(e) => handleFilterChange("anoMin", e.target.value)}
                       placeholder="Ex: 2015"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
 
@@ -281,7 +301,7 @@ export default function ViaturasPage() {
                       value={filters.anoMax}
                       onChange={(e) => handleFilterChange("anoMax", e.target.value)}
                       placeholder="Ex: 2023"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     />
                   </div>
 
@@ -293,7 +313,7 @@ export default function ViaturasPage() {
                     <select
                       value={filters.combustivel}
                       onChange={(e) => handleFilterChange("combustivel", e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900"
                     >
                       <option value="">Todos os combustíveis</option>
                       {combustiveis.map(combustivel => (
@@ -310,7 +330,7 @@ export default function ViaturasPage() {
                     <select
                       value={filters.cambio}
                       onChange={(e) => handleFilterChange("cambio", e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900"
                     >
                       <option value="">Todas as transmissões</option>
                       {cambios.map(cambio => (

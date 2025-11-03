@@ -148,17 +148,26 @@ export async function GET() {
         // 2. photo_url da tabela cars (já mapeado no vehicle.imagem)
         // 3. Primeira foto disponível na car_photos (se não houver photo_url)
 
-        const { data: profilePhoto, error: profileError } = await supabase
+        // Tentar encontrar uma foto de perfil por vários padrões comuns
+        const { data: profilePhotos, error: profileError } = await supabase
           .from('car_photos')
           .select('photo_url')
           .eq('car_id', car.id)
-          .ilike('photo_url', '%_profile_%')
-          .limit(1)
-          .single();
+          .or(
+            [
+              'photo_url.ilike.%profile%',
+              'photo_url.ilike.%_profile_%',
+              'photo_url.ilike.%front%',
+              'photo_url.ilike.%frente%',
+              'photo_url.ilike.%cover%',
+              'photo_url.ilike.%capa%'
+            ].join(',')
+          )
+          .limit(1);
 
-        if (profilePhoto && !profileError) {
+        if (profilePhotos && profilePhotos.length > 0 && !profileError) {
           // 1ª prioridade: Usar foto de perfil se existir
-          vehicle.imagem = profilePhoto.photo_url;
+          vehicle.imagem = profilePhotos[0].photo_url;
         } else if (!car.photo_url || car.photo_url === '') {
           // 3ª prioridade: Se não houver photo_url na tabela cars, buscar primeira foto disponível
           const { data: photos, error: photosError } = await supabase
