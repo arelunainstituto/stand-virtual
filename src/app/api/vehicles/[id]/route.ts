@@ -112,8 +112,19 @@ export async function GET(
       );
     }
 
+    // Buscar fotos do veículo da tabela car_photos
+    const { data: photos, error: photosError } = await supabase
+      .from('car_photos')
+      .select('photo_url')
+      .eq('car_id', id);
+
     // Mapear os dados para o formato esperado pelo frontend
     const vehicle = mapCarToVehicle(data);
+
+    // Se houver fotos na tabela car_photos, usar essas fotos
+    if (photos && photos.length > 0 && !photosError) {
+      vehicle.galeria = photos.map(p => p.photo_url);
+    }
 
     return NextResponse.json({
       success: true,

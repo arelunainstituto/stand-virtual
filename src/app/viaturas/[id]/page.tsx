@@ -136,7 +136,8 @@ export default function VehicleDetailPage() {
     return null;
   }
 
-  const images = vehicle.galeria || [vehicle.imagem];
+  const images = vehicle.galeria && vehicle.galeria.length > 0 ? vehicle.galeria : (vehicle.imagem ? [vehicle.imagem] : []);
+  const hasImages = images.length > 0;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -157,14 +158,52 @@ export default function VehicleDetailPage() {
             {/* Left Column - Images */}
             <div className="lg:col-span-2">
               {/* Main Image */}
-              <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden mb-4">
-                <Image
-                  src={images[currentImageIndex]}
-                  alt={`${vehicle.marca} ${vehicle.modelo}`}
-                  fill
-                  className="object-cover"
-                />
-                
+              <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden mb-4 bg-gray-200">
+                {hasImages ? (
+                  <>
+                    <Image
+                      src={images[currentImageIndex]}
+                      alt={`${vehicle.marca} ${vehicle.modelo}`}
+                      fill
+                      className="object-cover"
+                    />
+
+                    {/* Navigation Arrows - Only show if multiple images */}
+                    {images.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))}
+                          className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                        >
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={() => setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                        >
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+
+                        {/* Image Counter */}
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/50 text-white text-sm">
+                          {currentImageIndex + 1} / {images.length}
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-gray-400 text-6xl mb-4">🚗</div>
+                      <span className="text-gray-500 text-lg">Sem fotos disponíveis</span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4">
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(vehicle.status)}`}>
@@ -190,13 +229,13 @@ export default function VehicleDetailPage() {
 
               {/* Thumbnail Images */}
               {images.length > 1 && (
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
                   {images.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`relative h-20 rounded-lg overflow-hidden ${
-                        currentImageIndex === index ? "ring-2 ring-stand-primary" : ""
+                      className={`relative h-20 rounded-lg overflow-hidden transition-all ${
+                        currentImageIndex === index ? "ring-2 ring-stand-primary scale-105" : "ring-1 ring-gray-200 hover:ring-gray-300"
                       }`}
                     >
                       <Image

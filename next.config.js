@@ -4,15 +4,16 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['images.unsplash.com', 'bzkgjtxrzwzoibzesphi.supabase.co'],
-  },
-  async rewrites() {
-    return [
+    remotePatterns: [
       {
-        source: '/api/:path*',
-        destination: 'http://localhost:3000/api/:path*',
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
-    ];
+      {
+        protocol: 'https',
+        hostname: 'bzkgjtxrzwzoibzesphi.supabase.co',
+      },
+    ],
   },
 };
 

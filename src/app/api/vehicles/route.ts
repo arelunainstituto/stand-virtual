@@ -76,12 +76,10 @@ export async function GET() {
   try {
     const supabase = createServerSupabaseClient();
 
-    // Buscar todos os veículos da tabela cars que tenham foto
+    // Buscar todos os veículos da tabela cars (com e sem foto)
     const { data, error } = await supabase
       .from('cars')
       .select('*')
-      .not('photo_url', 'is', null)
-      .neq('photo_url', '')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -97,7 +95,39 @@ export async function GET() {
     }
 
     // Mapear os dados para o formato esperado pelo frontend
-    const vehicles = (data || []).map(mapCarToVehicle);
+    const vehicles = await Promise.all(
+      (data || []).map(async (car) => {
+        const vehicle = mapCarToVehicle(car);
+
+        // Buscar foto de perfil (prioridade) - URLs que contêm "_profile_"
+        const { data: profilePhoto, error: profileError } = await supabase
+          .from('car_photos')
+          .select('photo_url')
+          .eq('car_id', car.id)
+          .ilike('photo_url', '%_profile_%')
+          .limit(1)
+          .single();
+
+        if (profilePhoto && !profileError) {
+          // Usar foto de perfil se existir
+          vehicle.imagem = profilePhoto.photo_url;
+        } else {
+          // Se não houver foto de perfil, buscar a primeira foto disponível
+          const { data: photos, error: photosError } = await supabase
+            .from('car_photos')
+            .select('photo_url')
+            .eq('car_id', car.id)
+            .limit(1);
+
+          if (photos && photos.length > 0 && !photosError) {
+            vehicle.imagem = photos[0].photo_url;
+          }
+          // Se não houver fotos na tabela car_photos, usar photo_url da tabela cars (já mapeado)
+        }
+
+        return vehicle;
+      })
+    );
 
     return NextResponse.json({
       success: true,
