@@ -53,6 +53,49 @@ function mapCarToVehicle(car: CarFromDB): Vehicle {
     return 'Manual'; // Default
   };
 
+  // Formatar cilindrada (engine)
+  const formatarCilindrada = (engineRaw: string | null | undefined): string => {
+    if (!engineRaw) return '';
+    const engine = engineRaw.toString().trim();
+
+    // Se já contém "L" (litros), normaliza espaço
+    if (/\d+(\.\d+)?\s*[lL]/.test(engine)) {
+      const match = engine.match(/\d+(?:\.\d+)?/);
+      return match ? `${match[0]} L` : engine;
+    }
+
+    // Extrai primeiro número (ex.: "1.5", "1598")
+    const numMatch = engine.match(/\d+(?:\.\d+)?/);
+    if (!numMatch) return engine; // Sem número, retorna como está
+
+    const numStr = numMatch[0];
+    // Se for decimal, assume litros
+    if (numStr.includes('.')) {
+      return `${numStr} L`;
+    }
+
+    // Se for inteiro, assume cm³ e converte para L com uma casa decimal
+    const cm3 = parseInt(numStr, 10);
+    if (!isNaN(cm3) && cm3 > 50) {
+      const litros = (cm3 / 1000).toFixed(1);
+      return `${litros} L`;
+    }
+
+    return engine; // fallback
+  };
+
+  // Normalizar cor para Title Case
+  const normalizarCor = (colorRaw: string | null | undefined): string => {
+    if (!colorRaw) return '';
+    return colorRaw
+      .toString()
+      .toLowerCase()
+      .split(' ')
+      .filter(Boolean)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+  };
+
   return {
     id: car.id,
     marca: car.brand.trim(),
@@ -66,8 +109,8 @@ function mapCarToVehicle(car: CarFromDB): Vehicle {
     status: car.status === 'vendido' ? 'vendido' : car.status === 'reservado' ? 'reservado' : 'disponivel',
     descricao: car.notes || `${car.brand.trim()} ${car.model.trim()} - ${car.year}`,
     especificacoes: {
-      cilindrada: car.engine,
-      cor: car.color,
+      cilindrada: formatarCilindrada(car.engine),
+      cor: normalizarCor(car.color),
     },
   };
 }

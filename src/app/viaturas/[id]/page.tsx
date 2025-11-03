@@ -307,33 +307,33 @@ export default function VehicleDetailPage() {
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Especificações</h3>
                   <div className="space-y-2">
                     {vehicle.especificacoes.potencia && (
-                      <div className="flex justify-between">
+                      <div className="flex items-start justify-between gap-4">
                         <span className="text-gray-600">Potência:</span>
-                        <span className="font-medium">{vehicle.especificacoes.potencia}</span>
+                        <span className="font-medium text-gray-900 break-words text-right">{vehicle.especificacoes.potencia}</span>
                       </div>
                     )}
                     {vehicle.especificacoes.cilindrada && (
-                      <div className="flex justify-between">
+                      <div className="flex items-start justify-between gap-4">
                         <span className="text-gray-600">Cilindrada:</span>
-                        <span className="font-medium">{vehicle.especificacoes.cilindrada}</span>
+                        <span className="font-medium text-gray-900 break-words text-right">{vehicle.especificacoes.cilindrada}</span>
                       </div>
                     )}
                     {vehicle.especificacoes.cor && (
-                      <div className="flex justify-between">
+                      <div className="flex items-start justify-between gap-4">
                         <span className="text-gray-600">Cor:</span>
-                        <span className="font-medium">{vehicle.especificacoes.cor}</span>
+                        <span className="font-medium text-gray-900 break-words text-right">{vehicle.especificacoes.cor}</span>
                       </div>
                     )}
                     {vehicle.especificacoes.portas && (
-                      <div className="flex justify-between">
+                      <div className="flex items-start justify-between gap-4">
                         <span className="text-gray-600">Portas:</span>
-                        <span className="font-medium">{vehicle.especificacoes.portas}</span>
+                        <span className="font-medium text-gray-900 break-words text-right">{vehicle.especificacoes.portas}</span>
                       </div>
                     )}
                     {vehicle.especificacoes.lugares && (
-                      <div className="flex justify-between">
+                      <div className="flex items-start justify-between gap-4">
                         <span className="text-gray-600">Lugares:</span>
-                        <span className="font-medium">{vehicle.especificacoes.lugares}</span>
+                        <span className="font-medium text-gray-900 break-words text-right">{vehicle.especificacoes.lugares}</span>
                       </div>
                     )}
                   </div>
