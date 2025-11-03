@@ -1,0 +1,19 @@
+{
+  "autoApprovals": {
+    "bash": [
+      "npm:*",
+      "npx:*",
+      "cd:*",
+      "ls:*",
+      "mkdir:*",
+      "git:*",
+      "node:*",
+      "tsx:*",
+      "ts-node:*",
+      "curl:*",
+      "open:*",
+      "lsof:*",
+      "vercel:*"
+    ]
+  }
+}

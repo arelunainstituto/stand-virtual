@@ -67,7 +67,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
       {/* Image Container */}
       <div className="relative h-48 overflow-hidden">
-        {!imageError ? (
+        {vehicle.imagem && !imageError ? (
           <Image
             src={vehicle.imagem}
             alt={`${vehicle.marca} ${vehicle.modelo}`}
@@ -77,7 +77,10 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Imagem não disponível</span>
+            <div className="text-center">
+              <div className="text-gray-400 text-4xl mb-2">🚗</div>
+              <span className="text-gray-500 text-sm">Sem foto</span>
+            </div>
           </div>
         )}
         

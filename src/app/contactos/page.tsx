@@ -63,7 +63,7 @@ export default function ContactosPage() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
-                        <p className="text-gray-600">info@standvirtual.pt</p>
+                        <p className="text-gray-600">info@pinklegion.pt</p>
                         <p className="text-sm text-gray-500">Resposta em 24 horas</p>
                       </div>
                     </div>

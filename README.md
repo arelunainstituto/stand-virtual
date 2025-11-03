@@ -1,4 +1,4 @@
-# Stand Virtual - Plataforma de Venda de Viaturas
+# Pinklegion - Plataforma de Venda de Viaturas
 
 Uma plataforma moderna e responsiva para venda de viaturas usadas, desenvolvida com Next.js 14, TypeScript e Tailwind CSS.
 
@@ -126,7 +126,7 @@ Este projeto está sob a licença MIT.
 ## 📞 Suporte
 
 Para suporte, contacte:
-- Email: info@standvirtual.pt
+- Email: info@pinklegion.pt
 - Telefone: +351 212 345 678
 - Website: [http://localhost:3000](http://localhost:3000)
 

@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['images.unsplash.com'],
+    domains: ['images.unsplash.com', 'bzkgjtxrzwzoibzesphi.supabase.co'],
   },
   async rewrites() {
     return [

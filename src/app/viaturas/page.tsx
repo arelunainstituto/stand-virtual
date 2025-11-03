@@ -4,15 +4,17 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { VehicleGrid } from "@/components/vehicle-grid";
-import { mockVehicles } from "@/data/mock-vehicles";
+import { Vehicle } from "@/data/mock-vehicles";
 import { FiFilter, FiGrid, FiList, FiSearch, FiX } from "react-icons/fi";
 
 export default function ViaturasPage() {
-  const [vehicles, setVehicles] = useState(mockVehicles);
-  const [filteredVehicles, setFilteredVehicles] = useState(mockVehicles);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   // Filter states
   const [filters, setFilters] = useState({
@@ -113,8 +115,37 @@ export default function ViaturasPage() {
     applyFilters(filters, searchTerm);
   };
 
+  // Buscar veículos do Supabase
   useEffect(() => {
-    applyFilters(filters, searchTerm);
+    async function fetchVehicles() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch('/api/vehicles');
+        const result = await response.json();
+
+        if (result.success && result.vehicles) {
+          setVehicles(result.vehicles);
+          setFilteredVehicles(result.vehicles);
+        } else {
+          setError(result.error || 'Erro ao carregar veículos');
+        }
+      } catch (err: any) {
+        console.error('Erro ao buscar veículos:', err);
+        setError('Erro ao conectar com o servidor');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchVehicles();
+  }, []);
+
+  useEffect(() => {
+    if (vehicles.length > 0) {
+      applyFilters(filters, searchTerm);
+    }
   }, [vehicles]);
 
   return (
@@ -310,8 +341,45 @@ export default function ViaturasPage() {
             )}
           </div>
 
+          {/* Loading State */}
+          {loading && (
+            <div className="flex justify-center items-center py-20">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-stand-primary mx-auto mb-4"></div>
+                <p className="text-gray-600">Carregando veículos...</p>
+              </div>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+              <p className="text-red-600 mb-2">⚠️ {error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="text-stand-primary hover:underline"
+              >
+                Tentar novamente
+              </button>
+            </div>
+          )}
+
           {/* Vehicles Grid */}
-          <VehicleGrid vehicles={filteredVehicles} viewMode={viewMode} />
+          {!loading && !error && (
+            <>
+              {filteredVehicles.length > 0 ? (
+                <VehicleGrid vehicles={filteredVehicles} viewMode={viewMode} />
+              ) : (
+                <div className="text-center py-20">
+                  <p className="text-gray-600 text-lg">
+                    {vehicles.length === 0
+                      ? "Nenhum veículo disponível no momento."
+                      : "Nenhum veículo encontrado com os filtros aplicados."}
+                  </p>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
 

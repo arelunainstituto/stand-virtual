@@ -6,21 +6,43 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { mockVehicles, Vehicle } from "@/data/mock-vehicles";
+import { Vehicle } from "@/data/mock-vehicles";
 import { FiArrowLeft, FiPhone, FiMail, FiCalendar, FiActivity, FiDroplet, FiSettings, FiStar, FiShare2, FiHeart } from "react-icons/fi";
 
 export default function VehicleDetailPage() {
   const params = useParams();
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
-    const vehicleId = params.id as string;
-    const foundVehicle = mockVehicles.find(v => v.id === vehicleId);
-    setVehicle(foundVehicle || null);
-    setLoading(false);
+    async function fetchVehicle() {
+      try {
+        const vehicleId = params.id as string;
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`/api/vehicles/${vehicleId}`);
+        const result = await response.json();
+
+        if (result.success && result.vehicle) {
+          setVehicle(result.vehicle);
+        } else {
+          setError(result.error || 'Veículo não encontrado');
+          setVehicle(null);
+        }
+      } catch (err: any) {
+        console.error('Erro ao buscar veículo:', err);
+        setError('Erro ao conectar com o servidor');
+        setVehicle(null);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchVehicle();
   }, [params.id]);
 
   if (loading) {
@@ -34,21 +56,37 @@ export default function VehicleDetailPage() {
     );
   }
 
-  if (!vehicle) {
+  if (!vehicle && !loading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
         <div className="pt-16 flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Veículo não encontrado</h1>
-            <p className="text-gray-600 mb-6">O veículo que procura não existe ou foi removido.</p>
-            <Link
-              href="/viaturas"
-              className="bg-stand-primary text-white px-6 py-3 rounded-lg hover:bg-stand-primary-dark transition-colors inline-flex items-center"
-            >
-              <FiArrowLeft className="w-4 h-4 mr-2" />
-              Voltar às Viaturas
-            </Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              {error || 'Veículo não encontrado'}
+            </h1>
+            <p className="text-gray-600 mb-6">
+              {error === 'Erro ao conectar com o servidor'
+                ? 'Não foi possível conectar ao servidor. Por favor, tente novamente.'
+                : 'O veículo que procura não existe ou foi removido.'}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/viaturas"
+                className="bg-stand-primary text-white px-6 py-3 rounded-lg hover:bg-stand-primary-dark transition-colors inline-flex items-center justify-center"
+              >
+                <FiArrowLeft className="w-4 h-4 mr-2" />
+                Voltar às Viaturas
+              </Link>
+              {error && (
+                <button
+                  onClick={() => window.location.reload()}
+                  className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  Tentar Novamente
+                </button>
+              )}
+            </div>
           </div>
         </div>
         <Footer />
@@ -93,12 +131,17 @@ export default function VehicleDetailPage() {
     }
   };
 
+  // Se não houver veículo, não renderizar a parte de imagens
+  if (!vehicle) {
+    return null;
+  }
+
   const images = vehicle.galeria || [vehicle.imagem];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
+
       <div className="pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Back Button */}
@@ -211,7 +254,7 @@ export default function VehicleDetailPage() {
                   Contactar via WhatsApp
                 </a>
                 <a
-                  href="mailto:info@standvirtual.pt"
+                  href="mailto:info@pinklegion.pt"
                   className="w-full bg-stand-primary text-white py-3 px-4 rounded-lg hover:bg-stand-primary-dark transition-colors flex items-center justify-center font-semibold"
                 >
                   <FiMail className="w-5 h-5 mr-2" />

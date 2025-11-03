@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-stand-primary">Stand Virtual</h3>
+            <h3 className="text-xl font-bold text-stand-primary">Pinklegion</h3>
             <p className="text-gray-300 text-sm">
               A sua plataforma de confiança para compra e venda de viaturas usadas.
             </p>
@@ -83,7 +83,7 @@ export function Footer() {
               </div>
               <div className="flex items-center text-gray-300 text-sm">
                 <FiMail className="w-4 h-4 mr-2" />
-                info@standvirtual.pt
+                info@pinklegion.pt
               </div>
               <div className="flex items-center text-gray-300 text-sm">
                 <FiMapPin className="w-4 h-4 mr-2" />
@@ -104,7 +104,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Stand Virtual. Todos os direitos reservados.
+            © 2024 Pinklegion. Todos os direitos reservados.
           </p>
         </div>
       </div>

@@ -1,12 +1,38 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { VehicleCard } from "@/components/vehicle-card";
-import { mockVehicles } from "@/data/mock-vehicles";
+import { Vehicle } from "@/data/mock-vehicles";
 import { FiArrowRight, FiCheck, FiStar, FiUsers, FiTruck, FiShield } from "react-icons/fi";
 import Link from "next/link";
 
 export default function Home() {
-  const featuredVehicles = mockVehicles.filter(v => v.status === "disponivel").slice(0, 6);
+  const [featuredVehicles, setFeaturedVehicles] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchVehicles() {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/vehicles');
+        const result = await response.json();
+
+        if (result.success && result.vehicles) {
+          // Filtrar apenas disponíveis e pegar os primeiros 6
+          const available = result.vehicles.filter((v: Vehicle) => v.status === "disponivel").slice(0, 6);
+          setFeaturedVehicles(available);
+        }
+      } catch (err) {
+        console.error('Erro ao buscar veículos:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchVehicles();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -46,7 +72,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Porquê Escolher o Stand Virtual?
+              Porquê Escolher a Pinklegion?
             </h2>
             <p className="text-lg text-gray-600">
               Oferecemos o melhor serviço e garantia para a sua compra
@@ -99,11 +125,24 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {featuredVehicles.map((vehicle) => (
-              <VehicleCard key={vehicle.id} vehicle={vehicle} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-stand-primary mx-auto mb-4"></div>
+                <p className="text-gray-600">Carregando veículos...</p>
+              </div>
+            </div>
+          ) : featuredVehicles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {featuredVehicles.map((vehicle) => (
+                <VehicleCard key={vehicle.id} vehicle={vehicle} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <p className="text-gray-600 text-lg">Nenhum veículo disponível no momento.</p>
+            </div>
+          )}
           
           <div className="text-center">
             <Link

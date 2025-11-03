@@ -12,7 +12,7 @@ export default function SobrePage() {
         <section className="bg-gradient-to-r from-stand-primary to-stand-primary-dark text-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Sobre o Stand Virtual
+              Sobre a Pinklegion
             </h1>
             <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto">
               A sua plataforma de confiança para compra e venda de viaturas usadas, 
@@ -29,7 +29,7 @@ export default function SobrePage() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">A Nossa História</h2>
                 <div className="space-y-4 text-gray-600">
                   <p>
-                    Fundado em 2008, o Stand Virtual nasceu da paixão por automóveis e do desejo 
+                    Fundada em 2008, a Pinklegion nasceu da paixão por automóveis e do desejo
                     de revolucionar a forma como as pessoas compram e vendem viaturas usadas.
                   </p>
                   <p>
@@ -194,7 +194,7 @@ export default function SobrePage() {
               Pronto para Encontrar o Seu Próximo Carro?
             </h2>
             <p className="text-lg text-gray-600 mb-8">
-              Junte-se aos milhares de clientes satisfeitos que confiam no Stand Virtual
+              Junte-se aos milhares de clientes satisfeitos que confiam na Pinklegion
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
