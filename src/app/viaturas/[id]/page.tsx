@@ -284,7 +284,7 @@ export default function VehicleDetailPage() {
               {/* Contact Buttons */}
               <div className="space-y-3">
                 <a
-                  href={`https://wa.me/351212345678?text=Olá! Tenho interesse no ${vehicle.marca} ${vehicle.modelo}`}
+                  href={`https://wa.me/351910048205?text=Olá! Tenho interesse no ${vehicle.marca} ${vehicle.modelo}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center font-semibold"

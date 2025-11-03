@@ -151,7 +151,7 @@ export function VehicleListItem({ vehicle }: VehicleListItemProps) {
               Ver Detalhes
             </Link>
             <a
-              href={`https://wa.me/351212345678?text=Olá! Tenho interesse no ${vehicle.marca} ${vehicle.modelo}`}
+              href={`https://wa.me/351910048205?text=Olá! Tenho interesse no ${vehicle.marca} ${vehicle.modelo}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors text-center flex items-center justify-center"

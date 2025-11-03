@@ -45,7 +45,7 @@ export function Header() {
           {/* Contact Button */}
           <div className="hidden md:block">
             <a
-              href="tel:+351212345678"
+              href="tel:+351910048205"
               className="bg-stand-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-stand-primary-dark transition-colors flex items-center"
             >
               <FiPhone className="w-4 h-4 mr-2" />
@@ -83,7 +83,7 @@ export function Header() {
                 </Link>
               ))}
               <a
-                href="tel:+351212345678"
+                href="tel:+351910048205"
                 className="bg-stand-primary text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-stand-primary-dark transition-colors flex items-center"
               >
                 <FiPhone className="w-4 h-4 mr-2" />

@@ -117,7 +117,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
               Ver Detalhes
             </Link>
             <a
-              href={`https://wa.me/351212345678?text=Olá! Tenho interesse no ${vehicle.marca} ${vehicle.modelo}`}
+              href={`https://wa.me/351910048205?text=Olá! Tenho interesse no ${vehicle.marca} ${vehicle.modelo}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors flex items-center"
