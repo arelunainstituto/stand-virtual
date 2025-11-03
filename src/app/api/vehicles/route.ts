@@ -76,10 +76,11 @@ export async function GET() {
   try {
     const supabase = createServerSupabaseClient();
 
-    // Buscar todos os veículos da tabela cars (com e sem foto)
+    // Buscar veículos disponíveis ou reservados (excluir vendidos)
     const { data, error } = await supabase
       .from('cars')
       .select('*')
+      .neq('status', 'vendido')
       .order('created_at', { ascending: false });
 
     if (error) {
