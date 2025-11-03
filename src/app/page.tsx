@@ -5,7 +5,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { VehicleCard } from "@/components/vehicle-card";
 import { Vehicle } from "@/data/mock-vehicles";
-import { FiArrowRight, FiCheck, FiStar, FiUsers, FiTruck, FiShield } from "react-icons/fi";
+import { FiArrowRight, FiCheck, FiStar, FiUsers, FiTruck, FiShield, FiCreditCard, FiPercent } from "react-icons/fi";
 import Link from "next/link";
 
 export default function Home() {
@@ -108,6 +108,52 @@ export default function Home() {
               <p className="text-gray-600">
                 Equipa especializada para ajudá-lo a encontrar o veículo ideal
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Installment Promotion Section */}
+      <section className="py-16 bg-gradient-to-r from-stand-primary to-stand-primary-dark text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="bg-white/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <FiCreditCard className="w-10 h-10 text-white" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Parcelamento Sem Juros
+            </h2>
+            <p className="text-xl md:text-2xl mb-6 text-gray-100">
+              Parcele o seu veículo em até <span className="font-bold text-yellow-300">24 vezes sem juros</span>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
+              <div className="flex items-center bg-white/10 px-6 py-3 rounded-lg">
+                <FiPercent className="w-6 h-6 mr-3 text-yellow-300" />
+                <span className="text-lg font-semibold">0% de Juros</span>
+              </div>
+              <div className="flex items-center bg-white/10 px-6 py-3 rounded-lg">
+                <FiCreditCard className="w-6 h-6 mr-3 text-yellow-300" />
+                <span className="text-lg font-semibold">Até 24 Parcelas</span>
+              </div>
+            </div>
+            <p className="text-lg text-gray-200 mb-8 max-w-3xl mx-auto">
+              Realize o sonho do seu carro novo com condições especiais de pagamento. 
+              Sem entrada, sem juros, sem complicações. Consulte-nos para mais detalhes!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/contactos"
+                className="bg-yellow-400 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition-colors flex items-center justify-center"
+              >
+                Simular Financiamento
+                <FiArrowRight className="ml-2 w-5 h-5" />
+              </Link>
+              <Link
+                href="/viaturas"
+                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-stand-primary transition-colors"
+              >
+                Ver Viaturas
+              </Link>
             </div>
           </div>
         </div>

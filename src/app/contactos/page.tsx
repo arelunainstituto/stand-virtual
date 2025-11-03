@@ -52,7 +52,7 @@ export default function ContactosPage() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-gray-900 mb-1">Telefone</h4>
-                        <p className="text-gray-600">+351 212 345 678</p>
+                        <p className="text-gray-600">+351 910 048 205</p>
                         <p className="text-sm text-gray-500">Segunda a Sexta: 9h00 - 18h00</p>
                       </div>
                     </div>

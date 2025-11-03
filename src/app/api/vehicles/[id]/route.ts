@@ -30,7 +30,6 @@ interface Vehicle {
   cambio: string;
   imagem: string;
   status: "disponivel" | "vendido" | "reservado";
-  descricao?: string;
   especificacoes?: {
     potencia?: string;
     cilindrada?: string;
@@ -104,7 +103,6 @@ function mapCarToVehicle(car: CarFromDB): Vehicle {
     cambio: inferirCambio(),
     imagem: car.photo_url || '',
     status: car.status === 'vendido' ? 'vendido' : car.status === 'reservado' ? 'reservado' : 'disponivel',
-    descricao: car.notes || `${car.brand.trim()} ${car.model.trim()} - ${car.year}`,
     especificacoes: {
       cilindrada: formatarCilindrada(car.engine),
       cor: normalizarCor(car.color),

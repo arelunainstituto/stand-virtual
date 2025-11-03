@@ -53,6 +53,14 @@ export default function ViaturasPage() {
   }, [searchTerm]);
 
   const applyFilters = (currentFilters: typeof filters, currentSearch: string) => {
+    // Se não houver filtros ativos nem busca, mostrar lista completa
+    const hasActiveFilters = Object.values(currentFilters).some((v) => Boolean(v));
+    if (!hasActiveFilters && !currentSearch) {
+      setFilteredVehicles(vehicles);
+      setFilterFeedback("");
+      return;
+    }
+
     let filtered = vehicles;
 
     // Search filter
@@ -127,12 +135,23 @@ export default function ViaturasPage() {
 
   // Buscar veículos do Supabase
   useEffect(() => {
-    async function fetchVehicles() {
+    async function fetchVehicles(retryCount = 0) {
       try {
         setLoading(true);
         setError(null);
 
-        const response = await fetch('/api/vehicles');
+        const response = await fetch('/api/vehicles', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store', // Evitar cache para sempre buscar dados atualizados
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const result = await response.json();
 
         if (result.success && result.vehicles) {
@@ -143,6 +162,14 @@ export default function ViaturasPage() {
         }
       } catch (err: any) {
         console.error('Erro ao buscar veículos:', err);
+        
+        // Tentar novamente até 2 vezes em caso de erro de rede
+        if (retryCount < 2 && (err.name === 'TypeError' || err.message.includes('Failed to fetch'))) {
+          console.log(`Tentando novamente... (tentativa ${retryCount + 1})`);
+          setTimeout(() => fetchVehicles(retryCount + 1), 1000);
+          return;
+        }
+        
         setError('Erro ao conectar com o servidor');
       } finally {
         setLoading(false);

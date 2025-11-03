@@ -9,7 +9,6 @@ export interface Vehicle {
   cambio: string;
   imagem: string;
   status: "disponivel" | "vendido" | "reservado";
-  descricao?: string;
   especificacoes?: {
     potencia?: string;
     cilindrada?: string;
@@ -32,7 +31,6 @@ export const mockVehicles: Vehicle[] = [
     cambio: "Automático",
     imagem: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=300&fit=crop",
     status: "disponivel",
-    descricao: "BMW Série 3 em excelente estado, com histórico de manutenção completo. Equipado com sistema de navegação, bancos em pele e sensores de estacionamento.",
     especificacoes: {
       potencia: "184 cv",
       cilindrada: "2.0L",
@@ -57,7 +55,6 @@ export const mockVehicles: Vehicle[] = [
     cambio: "Manual",
     imagem: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=500&h=300&fit=crop",
     status: "disponivel",
-    descricao: "Audi A4 com motor diesel económico e excelente performance. Interior em excelente estado e equipamentos de série completos.",
     especificacoes: {
       potencia: "150 cv",
       cilindrada: "2.0L",
@@ -81,7 +78,6 @@ export const mockVehicles: Vehicle[] = [
     cambio: "Automático",
     imagem: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=500&h=300&fit=crop",
     status: "disponivel",
-    descricao: "Mercedes-Benz Classe C híbrida, tecnologia de ponta e eficiência energética. Equipamentos premium e conforto excecional.",
     especificacoes: {
       potencia: "204 cv",
       cilindrada: "2.0L",
@@ -105,7 +101,6 @@ export const mockVehicles: Vehicle[] = [
     cambio: "Manual",
     imagem: "https://images.unsplash.com/photo-1549924231-f129b911e442?w=500&h=300&fit=crop",
     status: "vendido",
-    descricao: "Volkswagen Golf confiável e económico. Ideal para uso urbano e viagens. Manutenção acessível e peças facilmente disponíveis.",
     especificacoes: {
       potencia: "115 cv",
       cilindrada: "1.4L",
@@ -125,7 +120,6 @@ export const mockVehicles: Vehicle[] = [
     cambio: "Automático",
     imagem: "https://images.unsplash.com/photo-1549317336-206569e8475c?w=500&h=300&fit=crop",
     status: "disponivel",
-    descricao: "Ford Focus com excelente relação qualidade-preço. Equipamentos modernos e condução agradável.",
     especificacoes: {
       potencia: "125 cv",
       cilindrada: "1.5L",
@@ -145,7 +139,6 @@ export const mockVehicles: Vehicle[] = [
     cambio: "Manual",
     imagem: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500&h=300&fit=crop",
     status: "reservado",
-    descricao: "Peugeot 308 com design moderno e interior espaçoso. Tecnologia de ponta e eficiência energética.",
     especificacoes: {
       potencia: "130 cv",
       cilindrada: "1.2L",

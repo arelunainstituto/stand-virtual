@@ -30,7 +30,6 @@ interface Vehicle {
   cambio: string;
   imagem: string;
   status: "disponivel" | "vendido" | "reservado";
-  descricao?: string;
   especificacoes?: {
     potencia?: string;
     cilindrada?: string;
@@ -107,7 +106,6 @@ function mapCarToVehicle(car: CarFromDB): Vehicle {
     cambio: inferirCambio(),
     imagem: car.photo_url || '',
     status: car.status === 'vendido' ? 'vendido' : car.status === 'reservado' ? 'reservado' : 'disponivel',
-    descricao: car.notes || `${car.brand.trim()} ${car.model.trim()} - ${car.year}`,
     especificacoes: {
       cilindrada: formatarCilindrada(car.engine),
       cor: normalizarCor(car.color),
@@ -138,53 +136,57 @@ export async function GET() {
       );
     }
 
-    // Mapear os dados para o formato esperado pelo frontend
-    const vehicles = await Promise.all(
-      (data || []).map(async (car) => {
-        const vehicle = mapCarToVehicle(car);
+    // Se houver carros, buscar todas as fotos de uma só vez para evitar N+1
+    let vehicles: Vehicle[] = [];
+    if (data && data.length > 0) {
+      const carIds = data.map((c) => c.id);
 
-        // Prioridade de fotos:
-        // 1. Foto de perfil (_profile_) da car_photos
-        // 2. photo_url da tabela cars (já mapeado no vehicle.imagem)
-        // 3. Primeira foto disponível na car_photos (se não houver photo_url)
+      const { data: allPhotos, error: photosError } = await supabase
+        .from('car_photos')
+        .select('car_id, photo_url')
+        .in('car_id', carIds);
 
-        // Tentar encontrar uma foto de perfil por vários padrões comuns
-        const { data: profilePhotos, error: profileError } = await supabase
-          .from('car_photos')
-          .select('photo_url')
-          .eq('car_id', car.id)
-          .or(
-            [
-              'photo_url.ilike.%profile%',
-              'photo_url.ilike.%_profile_%',
-              'photo_url.ilike.%front%',
-              'photo_url.ilike.%frente%',
-              'photo_url.ilike.%cover%',
-              'photo_url.ilike.%capa%'
-            ].join(',')
-          )
-          .limit(1);
+      if (photosError) {
+        // Não bloquear a resposta por erro nas fotos; seguimos apenas com os dados dos carros
+        console.warn('Aviso ao buscar fotos:', photosError.message);
+      }
 
-        if (profilePhotos && profilePhotos.length > 0 && !profileError) {
-          // 1ª prioridade: Usar foto de perfil se existir
-          vehicle.imagem = profilePhotos[0].photo_url;
-        } else if (!car.photo_url || car.photo_url === '') {
-          // 3ª prioridade: Se não houver photo_url na tabela cars, buscar primeira foto disponível
-          const { data: photos, error: photosError } = await supabase
-            .from('car_photos')
-            .select('photo_url')
-            .eq('car_id', car.id)
-            .limit(1);
+      // Organizar fotos por carro
+      const photosByCarId = new Map<string, string[]>();
+      (allPhotos || []).forEach((p) => {
+        const list = photosByCarId.get(p.car_id) || [];
+        list.push(p.photo_url);
+        photosByCarId.set(p.car_id, list);
+      });
 
-          if (photos && photos.length > 0 && !photosError) {
-            vehicle.imagem = photos[0].photo_url;
-          }
-        }
-        // 2ª prioridade: Manter photo_url da tabela cars (já mapeado no vehicle.imagem)
+      // Função para escolher melhor foto
+      const chooseBestPhoto = (carId: string, fallback: string | null): string => {
+        const list = photosByCarId.get(carId) || [];
+        // 1) Tentar encontrar foto de perfil/front/capa
+        const profile = list.find((url) => {
+          const u = (url || '').toLowerCase();
+          return (
+            u.includes('profile') ||
+            u.includes('_profile_') ||
+            u.includes('front') ||
+            u.includes('frente') ||
+            u.includes('cover') ||
+            u.includes('capa')
+          );
+        });
+        if (profile) return profile;
+        // 2) Se houver fallback (photo_url na tabela cars), usar
+        if (fallback && fallback !== '') return fallback;
+        // 3) Senão, primeira foto disponível
+        return list[0] || '';
+      };
 
-        return vehicle;
-      })
-    );
+      vehicles = data.map((car) => {
+        const v = mapCarToVehicle(car);
+        v.imagem = chooseBestPhoto(car.id, car.photo_url);
+        return v;
+      });
+    }
 
     return NextResponse.json({
       success: true,

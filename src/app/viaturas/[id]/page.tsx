@@ -18,13 +18,24 @@ export default function VehicleDetailPage() {
   const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
-    async function fetchVehicle() {
+    async function fetchVehicle(retryCount = 0) {
       try {
         const vehicleId = params.id as string;
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`/api/vehicles/${vehicleId}`);
+        const response = await fetch(`/api/vehicles/${vehicleId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store', // Evitar cache para sempre buscar dados atualizados
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const result = await response.json();
 
         if (result.success && result.vehicle) {
@@ -35,6 +46,14 @@ export default function VehicleDetailPage() {
         }
       } catch (err: any) {
         console.error('Erro ao buscar veículo:', err);
+        
+        // Tentar novamente até 2 vezes em caso de erro de rede
+        if (retryCount < 2 && (err.name === 'TypeError' || err.message.includes('Failed to fetch'))) {
+          console.log(`Tentando novamente... (tentativa ${retryCount + 1})`);
+          setTimeout(() => fetchVehicle(retryCount + 1), 1000);
+          return;
+        }
+        
         setError('Erro ao conectar com o servidor');
         setVehicle(null);
       } finally {
@@ -341,14 +360,6 @@ export default function VehicleDetailPage() {
               )}
             </div>
           </div>
-
-          {/* Description */}
-          {vehicle.descricao && (
-            <div className="mt-12 bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Descrição</h3>
-              <p className="text-gray-700 leading-relaxed">{vehicle.descricao}</p>
-            </div>
-          )}
         </div>
       </div>
 

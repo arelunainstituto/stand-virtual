@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { FiUser, FiMail, FiMessageSquare, FiSend } from "react-icons/fi";
+import { FiUser, FiMessageSquare, FiSend } from "react-icons/fi";
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,7 +27,7 @@ export function ContactForm() {
 
     setIsSubmitted(true);
     setIsSubmitting(false);
-    setFormData({ name: "", email: "", message: "" });
+    setFormData({ name: "", message: "" });
   };
 
   if (isSubmitted) {
@@ -46,43 +45,22 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-            Nome *
-          </label>
-          <div className="relative">
-            <FiUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
-              placeholder="O seu nome completo"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-            Email *
-          </label>
-          <div className="relative">
-            <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
-              placeholder="O seu email"
-            />
-          </div>
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+          Nome *
+        </label>
+        <div className="relative">
+          <FiUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent"
+            placeholder="O seu nome completo"
+          />
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { FiTruck, FiCreditCard, FiShield, FiSettings, FiFileText, FiUser, FiPlay } from "react-icons/fi";
+import { FiTruck, FiCreditCard, FiShield } from "react-icons/fi";
 
 export default function ServicosPage() {
   return (
@@ -56,9 +56,10 @@ export default function ServicosPage() {
                 <h3 className="text-xl font-semibold mb-4">Financiamento</h3>
                 <p className="text-gray-600 mb-4">
                   Soluções de financiamento personalizadas com as melhores condições 
-                  do mercado e aprovação rápida.
+                  do mercado e aprovação rápida. <strong>Parcele em até 24 vezes sem juros!</strong>
                 </p>
                 <ul className="space-y-2 text-sm text-gray-600">
+                  <li>• Parcelamento até 24x sem juros</li>
                   <li>• Taxas competitivas</li>
                   <li>• Aprovação em 24h</li>
                   <li>• Prazos flexíveis</li>
@@ -81,60 +82,6 @@ export default function ServicosPage() {
                   <li>• Carro de substituição</li>
                   <li>• Suporte 24/7</li>
                 </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Additional Services */}
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Serviços Adicionais</h2>
-              <p className="text-lg text-gray-600">
-                Serviços complementares para uma experiência completa
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div className="bg-stand-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FiSettings className="w-6 h-6 text-stand-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Manutenção</h3>
-                <p className="text-gray-600 text-sm">
-                  Serviços de manutenção preventiva e corretiva com peças originais.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div className="bg-stand-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FiFileText className="w-6 h-6 text-stand-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Documentação</h3>
-                <p className="text-gray-600 text-sm">
-                  Tratamento completo de toda a documentação necessária.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div className="bg-stand-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FiUser className="w-6 h-6 text-stand-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Atendimento Personalizado</h3>
-                <p className="text-gray-600 text-sm">
-                  Consultoria especializada para encontrar o veículo ideal.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div className="bg-stand-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FiPlay className="w-6 h-6 text-stand-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Teste de Condução</h3>
-                <p className="text-gray-600 text-sm">
-                  Experimente o veículo antes de decidir, sem compromisso.
-                </p>
               </div>
             </div>
           </div>

@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { FiFacebook, FiInstagram, FiLinkedin, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
-import { NewsletterForm } from "./newsletter-form";
 
 export function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-stand-primary">Pinklegion</h3>
@@ -51,18 +50,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/sobre" className="text-gray-300 hover:text-stand-primary transition-colors text-sm">
-                  Sobre Nós
-                </Link>
-              </li>
-              <li>
                 <Link href="/servicos" className="text-gray-300 hover:text-stand-primary transition-colors text-sm">
                   Serviços
-                </Link>
-              </li>
-              <li>
-                <Link href="/importacao" className="text-gray-300 hover:text-stand-primary transition-colors text-sm">
-                  Importação
                 </Link>
               </li>
               <li>
@@ -79,7 +68,7 @@ export function Footer() {
             <div className="space-y-2">
               <div className="flex items-center text-gray-300 text-sm">
                 <FiPhone className="w-4 h-4 mr-2" />
-                +351 212 345 678
+                +351 910 048 205
               </div>
               <div className="flex items-center text-gray-300 text-sm">
                 <FiMail className="w-4 h-4 mr-2" />
@@ -90,15 +79,6 @@ export function Footer() {
                 Braga, Portugal
               </div>
             </div>
-          </div>
-
-          {/* Newsletter */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Newsletter</h4>
-            <p className="text-gray-300 text-sm">
-              Subscreva a nossa newsletter para receber as melhores ofertas.
-            </p>
-            <NewsletterForm />
           </div>
         </div>
 
