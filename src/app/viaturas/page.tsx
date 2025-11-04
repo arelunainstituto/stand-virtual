@@ -5,7 +5,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { VehicleGrid } from "@/components/vehicle-grid";
 import { Vehicle } from "@/data/mock-vehicles";
-import { FiFilter, FiGrid, FiList, FiSearch, FiX, FiRefreshCw } from "react-icons/fi";
+import { FiFilter, FiGrid, FiList, FiSearch, FiX } from "react-icons/fi";
 
 // Storage key for view mode persistence
 const VIEW_MODE_STORAGE_KEY = "viaturas_view_mode";
@@ -75,31 +75,31 @@ export default function ViaturasPage() {
   const handleFilterChange = (key: string, value: string) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    
+
     // Apply filters immediately
-    applyFilters(newFilters, searchTerm);
+    applyFilters(newFilters, searchTerm, vehicles);
   };
 
   // Apply search in real-time with debounce
   useEffect(() => {
     const handler = setTimeout(() => {
-      applyFilters(filters, searchTerm);
+      applyFilters(filters, searchTerm, vehicles);
     }, 300);
 
     return () => clearTimeout(handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]);
+  }, [searchTerm, vehicles]);
 
-  const applyFilters = (currentFilters: typeof filters, currentSearch: string) => {
+  const applyFilters = (currentFilters: typeof filters, currentSearch: string, currentVehicles: Vehicle[]) => {
     // Se não houver filtros ativos nem busca, mostrar lista completa
     const hasActiveFilters = Object.values(currentFilters).some((v) => Boolean(v));
     if (!hasActiveFilters && !currentSearch) {
-      setFilteredVehicles(vehicles);
+      setFilteredVehicles(currentVehicles);
       setFilterFeedback("");
       return;
     }
 
-    let filtered = vehicles;
+    let filtered = currentVehicles;
 
     // Search filter
     if (currentSearch) {
@@ -161,10 +161,10 @@ export default function ViaturasPage() {
       combustivel: "",
       cambio: "",
     };
-    
+
     setFilters(clearedFilters);
     setSearchTerm("");
-    
+
     setFilteredVehicles(vehicles);
     setFilterFeedback("");
   };
@@ -172,7 +172,7 @@ export default function ViaturasPage() {
   // Handle search form submission
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    applyFilters(filters, searchTerm);
+    applyFilters(filters, searchTerm, vehicles);
   };
 
   // Handle view mode change
@@ -242,7 +242,7 @@ export default function ViaturasPage() {
 
   useEffect(() => {
     if (vehicles.length > 0) {
-      applyFilters(filters, searchTerm);
+      applyFilters(filters, searchTerm, vehicles);
     }
   }, [filters, searchTerm, vehicles]);
 
@@ -276,7 +276,7 @@ export default function ViaturasPage() {
                 {searchTerm && (
                   <button
                     type="button"
-                    onClick={() => { setSearchTerm(""); applyFilters(filters, ""); }}
+                    onClick={() => { setSearchTerm(""); applyFilters(filters, "", vehicles); }}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     aria-label="Limpar busca"
                   >

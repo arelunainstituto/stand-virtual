@@ -1,6 +1,6 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { FiTruck, FiCreditCard, FiShield } from "react-icons/fi";
+import { FiTruck, FiCreditCard } from "react-icons/fi";
 
 export default function ServicosPage() {
   return (
@@ -31,14 +31,14 @@ export default function ServicosPage() {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               <div className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                 <div className="bg-stand-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                   <FiTruck className="w-8 h-8 text-stand-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-4">Venda de Viaturas</h3>
                 <p className="text-gray-600 mb-4">
-                  Seleção cuidadosa de viaturas usadas com qualidade garantida, 
+                  Seleção cuidadosa de viaturas usadas com qualidade garantida,
                   inspecionadas por técnicos especializados.
                 </p>
                 <ul className="space-y-2 text-sm text-gray-600">
@@ -48,14 +48,14 @@ export default function ServicosPage() {
                   <li>• Teste de condução</li>
                 </ul>
               </div>
-              
+
               <div className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                 <div className="bg-stand-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                   <FiCreditCard className="w-8 h-8 text-stand-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-4">Financiamento</h3>
                 <p className="text-gray-600 mb-4">
-                  Soluções de financiamento personalizadas com as melhores condições 
+                  Soluções de financiamento personalizadas com as melhores condições
                   do mercado e aprovação rápida. <strong>Parcele em até 24 vezes sem juros!</strong>
                 </p>
                 <ul className="space-y-2 text-sm text-gray-600">
@@ -64,23 +64,6 @@ export default function ServicosPage() {
                   <li>• Aprovação em 24h</li>
                   <li>• Prazos flexíveis</li>
                   <li>• Sem comissões ocultas</li>
-                </ul>
-              </div>
-              
-              <div className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                <div className="bg-stand-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                  <FiShield className="w-8 h-8 text-stand-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-4">Garantia Estendida</h3>
-                <p className="text-gray-600 mb-4">
-                  Proteção adicional para a sua tranquilidade, com cobertura 
-                  abrangente e assistência 24/7.
-                </p>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>• Cobertura mecânica</li>
-                  <li>• Assistência em viagem</li>
-                  <li>• Carro de substituição</li>
-                  <li>• Suporte 24/7</li>
                 </ul>
               </div>
             </div>

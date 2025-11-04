@@ -157,62 +157,6 @@ export default function ContactosPage() {
             </div>
           </div>
         </section>
-
-        {/* FAQ Section */}
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Perguntas Frequentes
-              </h2>
-              <p className="text-lg text-gray-600">
-                Respostas às questões mais comuns
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Posso testar o veículo antes de comprar?
-                </h3>
-                <p className="text-gray-600">
-                  Sim, encorajamos todos os clientes a testarem os veículos antes da compra. 
-                  Pode agendar um teste de condução através dos nossos contactos.
-                </p>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Que garantia oferecem?
-                </h3>
-                <p className="text-gray-600">
-                  Todos os nossos veículos incluem garantia de 12 meses ou 20.000 km, 
-                  com possibilidade de extensão da garantia.
-                </p>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Fazem financiamento?
-                </h3>
-                <p className="text-gray-600">
-                  Sim, trabalhamos com várias entidades financeiras para oferecer as 
-                  melhores condições de financiamento.
-                </p>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Tratam da documentação?
-                </h3>
-                <p className="text-gray-600">
-                  Sim, tratamos de toda a documentação necessária para a transferência 
-                  de propriedade do veículo.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
 
       <Footer />
