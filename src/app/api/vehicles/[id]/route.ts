@@ -14,6 +14,7 @@ interface CarFromDB {
   status: string;
   sale_price: number;
   photo_url: string | null;
+  gallery?: any;
   notes: string | null;
   created_at: string;
 }
@@ -107,7 +108,9 @@ function mapCarToVehicle(car: CarFromDB): Vehicle {
       cilindrada: formatarCilindrada(car.engine),
       cor: normalizarCor(car.color),
     },
-    galeria: car.photo_url ? [car.photo_url] : [],
+    galeria: Array.isArray(car.gallery)
+      ? (car.gallery as string[]).filter(Boolean)
+      : (car.photo_url ? [car.photo_url] : []),
   };
 }
 
@@ -152,47 +155,26 @@ export async function GET(
     // Buscar fotos do veículo da tabela car_photos
     const { data: photos, error: photosError } = await supabase
       .from('car_photos')
-      .select('photo_url')
-      .eq('car_id', id);
+      .select('photo_url, photo_name, created_at')
+      .eq('car_id', id)
+      .order('created_at', { ascending: true });
 
     // Mapear os dados para o formato esperado pelo frontend
     const vehicle = mapCarToVehicle(data);
 
-    // Se houver fotos na tabela car_photos, usar essas fotos
-    if (photos && photos.length > 0 && !photosError) {
-      // Ordenar com prioridade para fotos de perfil/capa
-      const isProfile = (url: string) => {
-        const u = url.toLowerCase();
-        return (
-          u.includes('profile') ||
-          u.includes('_profile_') ||
-          u.includes('front') ||
-          u.includes('frente') ||
-          u.includes('cover') ||
-          u.includes('capa')
-        );
-      };
+    // Combinar fotos de car_photos com fallback 'photo_url'
+    const photosFromCarPhotos = (photos && photos.length > 0 && !photosError)
+      ? photos.map((p) => p.photo_url)
+      : [];
 
-      const sorted = photos
-        .map((p) => p.photo_url)
-        .sort((a, b) => {
-          const ap = isProfile(a) ? 0 : 1;
-          const bp = isProfile(b) ? 0 : 1;
-          return ap - bp;
-        });
+    const fallbackPhoto = data.photo_url ? [data.photo_url] : [];
 
-      vehicle.galeria = sorted;
+    const combined = [...photosFromCarPhotos, ...fallbackPhoto];
+    const deduped = combined.filter((url, idx) => combined.indexOf(url) === idx);
 
-      // Definir imagem principal com a melhor foto disponível
-      const preferred = sorted.find((url) => isProfile(url));
-      if (preferred) {
-        vehicle.imagem = preferred;
-      } else if (!vehicle.imagem && sorted.length > 0) {
-        vehicle.imagem = sorted[0];
-      }
-    } else {
-      // Sem fotos em car_photos: manter photo_url da tabela cars se existir
-      // Caso contrário, imagem fica vazia e o frontend mostrará placeholder
+    if (deduped.length > 0) {
+      vehicle.galeria = deduped;
+      vehicle.imagem = deduped[0];
     }
 
     return NextResponse.json({

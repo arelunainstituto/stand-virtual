@@ -5,7 +5,10 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { VehicleGrid } from "@/components/vehicle-grid";
 import { Vehicle } from "@/data/mock-vehicles";
-import { FiFilter, FiGrid, FiList, FiSearch, FiX } from "react-icons/fi";
+import { FiFilter, FiGrid, FiList, FiSearch, FiX, FiRefreshCw } from "react-icons/fi";
+
+// Storage key for view mode persistence
+const VIEW_MODE_STORAGE_KEY = "viaturas_view_mode";
 
 export default function ViaturasPage() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -15,6 +18,8 @@ export default function ViaturasPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  console.log('🚀 Estado inicial:', { vehicles: vehicles.length, filteredVehicles: filteredVehicles.length, loading, error });
   
   // Filter states
   const [filters, setFilters] = useState({
@@ -29,16 +34,49 @@ export default function ViaturasPage() {
 
   const [filterFeedback, setFilterFeedback] = useState("");
 
+  // Função para carregar apenas o modo de visualização do localStorage
+  const loadViewModeFromStorage = () => {
+    try {
+      const savedViewMode = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+
+      if (savedViewMode && (savedViewMode === "grid" || savedViewMode === "list")) {
+        setViewMode(savedViewMode);
+      }
+    } catch (error) {
+      console.warn("Erro ao carregar modo de visualização do localStorage:", error);
+    }
+  };
+
+  // Carregar configurações salvas (apenas viewMode) e limpar filtros ao montar o componente
+  useEffect(() => {
+    // Limpar filtros automaticamente sempre que entrar na página
+    const clearedFilters = {
+      marca: "",
+      precoMin: "",
+      precoMax: "",
+      anoMin: "",
+      anoMax: "",
+      combustivel: "",
+      cambio: "",
+    };
+    
+    setFilters(clearedFilters);
+    setSearchTerm("");
+    
+    // Carregar apenas o modo de visualização salvo
+    loadViewModeFromStorage();
+  }, []);
+
   // Available options for dropdowns
   const marcas = Array.from(new Set(vehicles.map(v => v.marca))).sort();
   const combustiveis = Array.from(new Set(vehicles.map(v => v.combustivel))).sort();
   const cambios = Array.from(new Set(vehicles.map(v => v.cambio))).sort();
 
   const handleFilterChange = (key: string, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
     
     // Apply filters immediately
-    const newFilters = { ...filters, [key]: value };
     applyFilters(newFilters, searchTerm);
   };
 
@@ -114,7 +152,7 @@ export default function ViaturasPage() {
   };
 
   const clearFilters = () => {
-    setFilters({
+    const clearedFilters = {
       marca: "",
       precoMin: "",
       precoMax: "",
@@ -122,21 +160,38 @@ export default function ViaturasPage() {
       anoMax: "",
       combustivel: "",
       cambio: "",
-    });
+    };
+    
+    setFilters(clearedFilters);
     setSearchTerm("");
+    
     setFilteredVehicles(vehicles);
     setFilterFeedback("");
   };
 
+  // Handle search form submission
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     applyFilters(filters, searchTerm);
+  };
+
+  // Handle view mode change
+  const handleViewModeChange = (mode: "grid" | "list") => {
+    setViewMode(mode);
+    
+    // Salvar modo de visualização no localStorage
+    try {
+      localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode);
+    } catch (error) {
+      console.warn("Erro ao salvar modo de visualização no localStorage:", error);
+    }
   };
 
   // Buscar veículos do Supabase
   useEffect(() => {
     async function fetchVehicles(retryCount = 0) {
       try {
+        console.log('🚗 Iniciando busca de veículos...');
         setLoading(true);
         setError(null);
 
@@ -148,24 +203,29 @@ export default function ViaturasPage() {
           cache: 'no-store', // Evitar cache para sempre buscar dados atualizados
         });
 
+        console.log('📡 Resposta da API:', response.status, response.statusText);
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
+        console.log('📊 Dados recebidos:', result);
 
         if (result.success && result.vehicles) {
+          console.log(`✅ ${result.vehicles.length} veículos carregados com sucesso`);
           setVehicles(result.vehicles);
           setFilteredVehicles(result.vehicles);
         } else {
+          console.error('❌ Erro na resposta da API:', result.error);
           setError(result.error || 'Erro ao carregar veículos');
         }
       } catch (err: any) {
-        console.error('Erro ao buscar veículos:', err);
+        console.error('❌ Erro ao buscar veículos:', err);
         
         // Tentar novamente até 2 vezes em caso de erro de rede
         if (retryCount < 2 && (err.name === 'TypeError' || err.message.includes('Failed to fetch'))) {
-          console.log(`Tentando novamente... (tentativa ${retryCount + 1})`);
+          console.log(`🔄 Tentando novamente... (tentativa ${retryCount + 1})`);
           setTimeout(() => fetchVehicles(retryCount + 1), 1000);
           return;
         }
@@ -173,6 +233,7 @@ export default function ViaturasPage() {
         setError('Erro ao conectar com o servidor');
       } finally {
         setLoading(false);
+        console.log('🏁 Busca de veículos finalizada');
       }
     }
 
@@ -183,7 +244,7 @@ export default function ViaturasPage() {
     if (vehicles.length > 0) {
       applyFilters(filters, searchTerm);
     }
-  }, [vehicles]);
+  }, [filters, searchTerm, vehicles]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -243,13 +304,13 @@ export default function ViaturasPage() {
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-600">Vista:</span>
                 <button
-                  onClick={() => setViewMode("grid")}
+                  onClick={() => handleViewModeChange("grid")}
                   className={`p-2 rounded ${viewMode === "grid" ? "bg-stand-primary text-white" : "bg-gray-100 text-gray-600"}`}
                 >
                   <FiGrid className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => setViewMode("list")}
+                  onClick={() => handleViewModeChange("list")}
                   className={`p-2 rounded ${viewMode === "list" ? "bg-stand-primary text-white" : "bg-gray-100 text-gray-600"}`}
                 >
                   <FiList className="w-4 h-4" />
@@ -368,12 +429,12 @@ export default function ViaturasPage() {
                 </div>
 
                 {/* Clear Filters Button */}
-                <div className="flex justify-end mt-4">
+                <div className="flex justify-end mb-4">
                   <button
                     onClick={clearFilters}
-                    className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
                   >
-                    <FiX className="w-4 h-4 mr-2" />
+                    <FiX className="w-4 h-4" />
                     Limpar Filtros
                   </button>
                 </div>
@@ -414,6 +475,15 @@ export default function ViaturasPage() {
           {/* Vehicles Grid */}
           {!loading && !error && (
             <>
+              {(() => {
+                console.log('🎯 Renderizando veículos:', {
+                  vehiclesLength: vehicles.length,
+                  filteredVehiclesLength: filteredVehicles.length,
+                  viewMode,
+                  vehicles: vehicles.slice(0, 2) // Mostrar apenas os primeiros 2 para debug
+                });
+                return null;
+              })()}
               {filteredVehicles.length > 0 ? (
                 <VehicleGrid vehicles={filteredVehicles} viewMode={viewMode} />
               ) : (

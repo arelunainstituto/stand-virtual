@@ -202,49 +202,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-stand-primary text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold mb-2">500+</div>
-              <div className="text-gray-200">Viaturas Vendidas</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">15+</div>
-              <div className="text-gray-200">Anos de Experiência</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">98%</div>
-              <div className="text-gray-200">Clientes Satisfeitos</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">24/7</div>
-              <div className="text-gray-200">Suporte Disponível</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-white">
+      {/* CTA Section - Expandida para preencher o espaço das estatísticas */}
+      <section className="py-24 bg-gradient-to-br from-stand-primary to-stand-primary-dark text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Pronto para Encontrar o Seu Próximo Carro?
           </h2>
-          <p className="text-lg text-gray-600 mb-8">
-            Entre em contacto connosco e deixe-nos ajudá-lo a encontrar o veículo perfeito
+          <p className="text-xl text-gray-100 mb-12 max-w-3xl mx-auto">
+            Entre em contacto connosco e deixe-nos ajudá-lo a encontrar o veículo perfeito. 
+            Com anos de experiência no mercado automóvel, garantimos qualidade e confiança em cada negócio.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          
+          {/* Destacar benefícios principais */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="flex flex-col items-center">
+              <div className="bg-white/20 p-4 rounded-full mb-4">
+                <FiShield className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Qualidade Garantida</h3>
+              <p className="text-gray-100 text-sm">Todos os veículos passam por inspeção rigorosa</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="bg-white/20 p-4 rounded-full mb-4">
+                <FiUsers className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Atendimento Personalizado</h3>
+              <p className="text-gray-100 text-sm">Suporte dedicado durante todo o processo</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="bg-white/20 p-4 rounded-full mb-4">
+                <FiCreditCard className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Financiamento Facilitado</h3>
+              <p className="text-gray-100 text-sm">Opções de pagamento flexíveis e acessíveis</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link
               href="/viaturas"
-              className="bg-stand-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-stand-primary-dark transition-colors"
+              className="bg-white text-stand-primary px-10 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-lg shadow-lg"
             >
               Explorar Viaturas
             </Link>
             <Link
               href="/contactos"
-              className="border-2 border-stand-primary text-stand-primary px-8 py-3 rounded-lg font-semibold hover:bg-stand-primary hover:text-white transition-colors"
+              className="border-2 border-white text-white px-10 py-4 rounded-lg font-semibold hover:bg-white hover:text-stand-primary transition-colors text-lg"
             >
               Contactar Agora
             </Link>

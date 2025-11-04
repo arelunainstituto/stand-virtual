@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Vehicle } from "@/data/mock-vehicles";
-import { FiArrowLeft, FiPhone, FiMail, FiCalendar, FiActivity, FiDroplet, FiSettings, FiStar, FiShare2, FiHeart } from "react-icons/fi";
+import { FiArrowLeft, FiPhone, FiMail, FiCalendar, FiActivity, FiDroplet, FiSettings, FiStar, FiShare2, FiHeart, FiCreditCard, FiPercent } from "react-icons/fi";
 
 export default function VehicleDetailPage() {
   const params = useParams();
@@ -155,7 +155,11 @@ export default function VehicleDetailPage() {
     return null;
   }
 
-  const images = vehicle.galeria && vehicle.galeria.length > 0 ? vehicle.galeria : (vehicle.imagem ? [vehicle.imagem] : []);
+  // Priorizar a foto de perfil como capa e incluir galeria, evitando duplicados sem usar Set
+  const gallery = Array.isArray(vehicle.galeria) ? vehicle.galeria.filter(Boolean) : [];
+  const cover = vehicle.imagem ? [vehicle.imagem] : [];
+  const combined = cover.concat(gallery);
+  const images = combined.filter((url, index) => combined.indexOf(url) === index);
   const hasImages = images.length > 0;
 
   return (
@@ -246,20 +250,20 @@ export default function VehicleDetailPage() {
                 </div>
               </div>
 
-              {/* Thumbnail Images */}
+              {/* Thumbnail Images (exibir apenas as demais fotos abaixo da principal) */}
               {images.length > 1 && (
                 <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
-                  {images.map((image, index) => (
+                  {images.slice(1).map((image, idx) => (
                     <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
+                      key={idx}
+                      onClick={() => setCurrentImageIndex(idx + 1)}
                       className={`relative h-20 rounded-lg overflow-hidden transition-all ${
-                        currentImageIndex === index ? "ring-2 ring-stand-primary scale-105" : "ring-1 ring-gray-200 hover:ring-gray-300"
+                        currentImageIndex === idx + 1 ? "ring-2 ring-stand-primary scale-105" : "ring-1 ring-gray-200 hover:ring-gray-300"
                       }`}
                     >
                       <Image
                         src={image}
-                        alt={`${vehicle.marca} ${vehicle.modelo} - Imagem ${index + 1}`}
+                        alt={`${vehicle.marca} ${vehicle.modelo} - Imagem ${idx + 2}`}
                         fill
                         className="object-cover"
                       />
@@ -300,6 +304,30 @@ export default function VehicleDetailPage() {
                 </div>
               </div>
 
+              {/* Installment Promotion */}
+              <div className="bg-gradient-to-r from-stand-primary to-pink-600 p-6 rounded-lg shadow-lg text-white">
+                <div className="flex items-center mb-3">
+                  <FiCreditCard className="w-6 h-6 mr-2" />
+                  <h3 className="text-lg font-bold">Parcelamento Sem Juros</h3>
+                </div>
+                <p className="text-sm mb-4 opacity-90">
+                  Parcele em até <span className="font-bold text-yellow-300">24 vezes sem juros</span>
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 text-center">
+                    <FiPercent className="w-5 h-5 mx-auto mb-1" />
+                    <div className="text-xs font-semibold">0% de Juros</div>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 text-center">
+                    <FiCreditCard className="w-5 h-5 mx-auto mb-1" />
+                    <div className="text-xs font-semibold">Até 24 Parcelas</div>
+                  </div>
+                </div>
+                <p className="text-xs mt-3 opacity-75">
+                  *Condições especiais. Consulte-nos para mais detalhes.
+                </p>
+              </div>
+
               {/* Contact Buttons */}
               <div className="space-y-3">
                 <a
@@ -310,13 +338,6 @@ export default function VehicleDetailPage() {
                 >
                   <FiPhone className="w-5 h-5 mr-2" />
                   Contactar via WhatsApp
-                </a>
-                <a
-                  href="mailto:info@pinklegion.pt"
-                  className="w-full bg-stand-primary text-white py-3 px-4 rounded-lg hover:bg-stand-primary-dark transition-colors flex items-center justify-center font-semibold"
-                >
-                  <FiMail className="w-5 h-5 mr-2" />
-                  Enviar Email
                 </a>
               </div>
 

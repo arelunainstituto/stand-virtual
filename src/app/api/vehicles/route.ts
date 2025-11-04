@@ -143,15 +143,16 @@ export async function GET() {
 
       const { data: allPhotos, error: photosError } = await supabase
         .from('car_photos')
-        .select('car_id, photo_url')
-        .in('car_id', carIds);
+        .select('car_id, photo_url, created_at')
+        .in('car_id', carIds)
+        .order('created_at', { ascending: true });
 
       if (photosError) {
         // Não bloquear a resposta por erro nas fotos; seguimos apenas com os dados dos carros
         console.warn('Aviso ao buscar fotos:', photosError.message);
       }
 
-      // Organizar fotos por carro
+      // Organizar fotos por carro (primeira foto é a de capa)
       const photosByCarId = new Map<string, string[]>();
       (allPhotos || []).forEach((p) => {
         const list = photosByCarId.get(p.car_id) || [];
@@ -159,26 +160,14 @@ export async function GET() {
         photosByCarId.set(p.car_id, list);
       });
 
-      // Função para escolher melhor foto
+      // Função para escolher primeira foto (capa)
       const chooseBestPhoto = (carId: string, fallback: string | null): string => {
         const list = photosByCarId.get(carId) || [];
-        // 1) Tentar encontrar foto de perfil/front/capa
-        const profile = list.find((url) => {
-          const u = (url || '').toLowerCase();
-          return (
-            u.includes('profile') ||
-            u.includes('_profile_') ||
-            u.includes('front') ||
-            u.includes('frente') ||
-            u.includes('cover') ||
-            u.includes('capa')
-          );
-        });
-        if (profile) return profile;
-        // 2) Se houver fallback (photo_url na tabela cars), usar
+        if (list.length > 0) {
+          return list[0]; // Primeira foto é a de capa
+        }
         if (fallback && fallback !== '') return fallback;
-        // 3) Senão, primeira foto disponível
-        return list[0] || '';
+        return '';
       };
 
       vehicles = data.map((car) => {
