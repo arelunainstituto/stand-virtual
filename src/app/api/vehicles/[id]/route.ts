@@ -173,8 +173,18 @@ export async function GET(
     const deduped = combined.filter((url, idx) => combined.indexOf(url) === idx);
 
     if (deduped.length > 0) {
+      // Procurar por foto de perfil (com _profile_ no nome)
+      const profilePhotoIndex = deduped.findIndex((url) => url.includes('_profile_'));
+
+      if (profilePhotoIndex > 0) {
+        // Se encontrar foto de perfil (e não for a primeira), move para frente
+        const profilePhoto = deduped[profilePhotoIndex];
+        deduped.splice(profilePhotoIndex, 1); // Remove da posição original
+        deduped.unshift(profilePhoto); // Coloca no início
+      }
+
       vehicle.galeria = deduped;
-      vehicle.imagem = deduped[0];
+      vehicle.imagem = deduped[0]; // Primeira foto é sempre a de capa
     }
 
     return NextResponse.json({
