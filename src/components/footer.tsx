@@ -84,7 +84,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Pinklegion. Todos os direitos reservados.
+            © 2025 Pinklegion. Todos os direitos reservados.
           </p>
         </div>
       </div>
