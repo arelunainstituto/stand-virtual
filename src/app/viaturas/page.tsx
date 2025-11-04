@@ -345,9 +345,13 @@ export default function ViaturasPage() {
                       Preço Mínimo (€)
                     </label>
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
                       value={filters.precoMin}
-                      onChange={(e) => handleFilterChange("precoMin", e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/[^0-9]/g, '');
+                        handleFilterChange("precoMin", val);
+                      }}
                       placeholder="Ex: 10000"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     />
@@ -358,9 +362,13 @@ export default function ViaturasPage() {
                       Preço Máximo (€)
                     </label>
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
                       value={filters.precoMax}
-                      onChange={(e) => handleFilterChange("precoMax", e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/[^0-9]/g, '');
+                        handleFilterChange("precoMax", val);
+                      }}
                       placeholder="Ex: 50000"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     />
@@ -372,9 +380,13 @@ export default function ViaturasPage() {
                       Ano Mínimo
                     </label>
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
                       value={filters.anoMin}
-                      onChange={(e) => handleFilterChange("anoMin", e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/[^0-9]/g, '');
+                        handleFilterChange("anoMin", val);
+                      }}
                       placeholder="Ex: 2015"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     />
@@ -385,9 +397,13 @@ export default function ViaturasPage() {
                       Ano Máximo
                     </label>
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
                       value={filters.anoMax}
-                      onChange={(e) => handleFilterChange("anoMax", e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/[^0-9]/g, '');
+                        handleFilterChange("anoMax", val);
+                      }}
                       placeholder="Ex: 2023"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-stand-primary focus:border-transparent text-gray-900 placeholder:text-gray-500"
                     />
