@@ -162,29 +162,30 @@ export async function GET(
     // Mapear os dados para o formato esperado pelo frontend
     const vehicle = mapCarToVehicle(data);
 
-    // Combinar fotos de car_photos com fallback 'photo_url'
-    const photosFromCarPhotos = (photos && photos.length > 0 && !photosError)
-      ? photos.map((p) => p.photo_url)
-      : [];
+    // A foto de capa é SEMPRE o campo photo_url da tabela cars
+    if (data.photo_url) {
+      vehicle.imagem = data.photo_url;
 
-    const fallbackPhoto = data.photo_url ? [data.photo_url] : [];
+      // Buscar fotos adicionais da car_photos (excluindo a de capa se estiver duplicada)
+      const photosFromCarPhotos = (photos && photos.length > 0 && !photosError)
+        ? photos.map((p) => p.photo_url)
+        : [];
 
-    const combined = [...photosFromCarPhotos, ...fallbackPhoto];
-    const deduped = combined.filter((url, idx) => combined.indexOf(url) === idx);
+      // Criar galeria: foto de capa primeiro, depois outras fotos sem duplicatas
+      const allPhotos = [data.photo_url, ...photosFromCarPhotos];
+      const uniquePhotos = allPhotos.filter((url, idx) => allPhotos.indexOf(url) === idx);
 
-    if (deduped.length > 0) {
-      // Procurar por foto de perfil (com _profile_ no nome)
-      const profilePhotoIndex = deduped.findIndex((url) => url.includes('_profile_'));
+      vehicle.galeria = uniquePhotos;
+    } else {
+      // Fallback se não houver photo_url: usar primeira foto de car_photos
+      const photosFromCarPhotos = (photos && photos.length > 0 && !photosError)
+        ? photos.map((p) => p.photo_url)
+        : [];
 
-      if (profilePhotoIndex > 0) {
-        // Se encontrar foto de perfil (e não for a primeira), move para frente
-        const profilePhoto = deduped[profilePhotoIndex];
-        deduped.splice(profilePhotoIndex, 1); // Remove da posição original
-        deduped.unshift(profilePhoto); // Coloca no início
+      if (photosFromCarPhotos.length > 0) {
+        vehicle.imagem = photosFromCarPhotos[0];
+        vehicle.galeria = photosFromCarPhotos;
       }
-
-      vehicle.galeria = deduped;
-      vehicle.imagem = deduped[0]; // Primeira foto é sempre a de capa
     }
 
     return NextResponse.json({
