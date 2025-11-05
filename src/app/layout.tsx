@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { GoogleTagManagerHead, GoogleTagManagerBody } from '@/components/gtm'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -16,7 +17,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <GoogleTagManagerHead />
+      </head>
+      <body className={inter.className}>
+        <GoogleTagManagerBody />
+        {children}
+      </body>
     </html>
   )
 }
