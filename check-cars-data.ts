@@ -8,6 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 async function checkCarsData() {
   console.log('🚗 Buscando dados da tabela cars...\n');
 
+  
   const { data, error } = await supabase
     .from('cars')
     .select('*')
