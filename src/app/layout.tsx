@@ -43,15 +43,6 @@ export const metadata: Metadata = {
         alt: `${siteConfig.name} - Stand de Carros Usados`,
       },
     ],
-    contactPoint: [
-      {
-        type: 'customer support',
-        email: siteConfig.email,
-        telephone: '+351 910 048 205',
-        areaServed: 'PT',
-        availableLanguage: ['pt-PT'],
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
