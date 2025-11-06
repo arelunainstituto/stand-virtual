@@ -162,31 +162,29 @@ export async function GET(
     // Mapear os dados para o formato esperado pelo frontend
     const vehicle = mapCarToVehicle(data);
 
-    // A foto de capa é SEMPRE o campo photo_url da tabela cars
-    if (data.photo_url) {
-      vehicle.imagem = data.photo_url;
+    // Buscar fotos da car_photos
+    const photosFromCarPhotos = (photos && photos.length > 0 && !photosError)
+      ? photos.map((p) => p.photo_url)
+      : [];
 
-      // Buscar fotos adicionais da car_photos (excluindo a de capa se estiver duplicada)
-      const photosFromCarPhotos = (photos && photos.length > 0 && !photosError)
-        ? photos.map((p) => p.photo_url)
-        : [];
+    // Escolher a melhor foto de capa (prioriza fotos de perfil)
+    let coverPhoto = data.photo_url || '';
 
-      // Criar galeria: foto de capa primeiro, depois outras fotos sem duplicatas
-      const allPhotos = [data.photo_url, ...photosFromCarPhotos];
-      const uniquePhotos = allPhotos.filter((url, idx) => allPhotos.indexOf(url) === idx);
-
-      vehicle.galeria = uniquePhotos;
-    } else {
-      // Fallback se não houver photo_url: usar primeira foto de car_photos
-      const photosFromCarPhotos = (photos && photos.length > 0 && !photosError)
-        ? photos.map((p) => p.photo_url)
-        : [];
-
-      if (photosFromCarPhotos.length > 0) {
-        vehicle.imagem = photosFromCarPhotos[0];
-        vehicle.galeria = photosFromCarPhotos;
-      }
+    // Se houver uma foto de perfil na car_photos, ela tem prioridade
+    const profilePhoto = photosFromCarPhotos.find((url) => url.toLowerCase().includes('_profile_'));
+    if (profilePhoto) {
+      coverPhoto = profilePhoto;
+    } else if (!coverPhoto && photosFromCarPhotos.length > 0) {
+      // Se não houver photo_url nem foto de perfil, usar primeira foto disponível
+      coverPhoto = photosFromCarPhotos[0];
     }
+
+    vehicle.imagem = coverPhoto;
+
+    // Criar galeria: foto de capa primeiro, depois todas as outras fotos sem duplicatas
+    const allPhotos = [coverPhoto, ...photosFromCarPhotos];
+    const uniquePhotos = allPhotos.filter((url, idx) => url && allPhotos.indexOf(url) === idx);
+    vehicle.galeria = uniquePhotos;
 
     return NextResponse.json({
       success: true,

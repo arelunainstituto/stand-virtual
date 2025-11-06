@@ -160,20 +160,23 @@ export async function GET() {
         photosByCarId.set(p.car_id, list);
       });
 
-      // Função para escolher foto de capa (prioriza photo_url da tabela cars)
+      // Função para escolher foto de capa (prioriza fotos de perfil e garante fallback válido)
       const chooseBestPhoto = (carId: string, photoUrl: string | null): string => {
-        // SEMPRE usar photo_url se existir (é o campo oficial de capa)
-        if (photoUrl && photoUrl !== '') {
-          return photoUrl;
-        }
-
-        // Fallback: usar primeira foto de car_photos se não houver photo_url
         const list = photosByCarId.get(carId) || [];
         if (list.length > 0) {
+          const profilePhoto = list.find((url) => url.toLowerCase().includes('_profile_'));
+          if (profilePhoto) {
+            return profilePhoto;
+          }
+
+          if (photoUrl && list.includes(photoUrl)) {
+            return photoUrl;
+          }
+
           return list[0];
         }
 
-        return '';
+        return photoUrl || '';
       };
 
       vehicles = data.map((car) => {

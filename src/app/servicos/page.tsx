@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { siteConfig } from "@/lib/site-config";
 import { FiTruck, FiCreditCard } from "react-icons/fi";
+
+export const metadata: Metadata = {
+  title: "Serviços Automóveis e Financiamento",
+  description:
+    "Conheça os serviços da Pinklegion em Braga: compra de viaturas usadas, inspeções rigorosas e financiamento até 24x sem juros.",
+  alternates: {
+    canonical: "/servicos",
+  },
+  openGraph: {
+    title: "Serviços Pinklegion | Financiamento e Compra de Viaturas",
+    description:
+      "Soluções completas para comprar o seu carro usado em Braga com inspeção técnica, garantia e financiamento sem juros.",
+    url: `${siteConfig.url}/servicos`,
+  },
+};
 
 export default function ServicosPage() {
   return (

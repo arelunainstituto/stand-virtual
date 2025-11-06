@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { siteConfig } from "@/lib/site-config";
 import { FiPhone, FiMail, FiMapPin, FiClock, FiMessageSquare } from "react-icons/fi";
+
+export const metadata: Metadata = {
+  title: "Contactos Pinklegion",
+  description:
+    "Fale com a Pinklegion em Braga: telefone +351 910 048 205, email info@pinklegion.pt e atendimento personalizado no stand.",
+  alternates: {
+    canonical: "/contactos",
+  },
+  openGraph: {
+    title: "Contacte a Pinklegion | Stand de Carros em Braga",
+    description:
+      "Marque a sua visita, peça simulação de financiamento ou fale com a equipa Pinklegion através de telefone, email ou WhatsApp.",
+    url: `${siteConfig.url}/contactos`,
+  },
+};
 
 export default function ContactosPage() {
   return (

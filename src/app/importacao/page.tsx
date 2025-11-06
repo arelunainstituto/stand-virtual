@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { siteConfig } from "@/lib/site-config";
 import { FiUpload, FiDatabase, FiSettings, FiShield, FiZap, FiExternalLink, FiCheck, FiArrowRight } from "react-icons/fi";
+
+export const metadata: Metadata = {
+  title: "Módulo de Importação de Viaturas",
+  description:
+    "Automatize a importação e gestão de dados de viaturas com o módulo avançado da Pinklegion, incluindo validações e integrações.",
+  alternates: {
+    canonical: "/importacao",
+  },
+  openGraph: {
+    title: "Importação de Dados Pinklegion",
+    description:
+      "Ferramentas para importar, validar e gerir grandes volumes de viaturas com segurança e desempenho.",
+    url: `${siteConfig.url}/importacao`,
+  },
+};
 
 export default function ImportacaoPage() {
   return (

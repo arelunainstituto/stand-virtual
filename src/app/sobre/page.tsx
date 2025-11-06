@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { siteConfig } from "@/lib/site-config";
 import { FiUsers, FiAward, FiShield, FiHeart, FiStar, FiTrendingUp } from "react-icons/fi";
+
+export const metadata: Metadata = {
+  title: "Sobre a Pinklegion",
+  description:
+    "Conheça a história da Pinklegion: mais de 15 anos de experiência a vender viaturas usadas com transparência e garantia em Braga.",
+  alternates: {
+    canonical: "/sobre",
+  },
+  openGraph: {
+    title: "Pinklegion | Stand de Automóveis em Braga",
+    description:
+      "Plataforma de referência na compra e venda de viaturas usadas com equipa experiente, inspeções rigorosas e suporte completo.",
+    url: `${siteConfig.url}/sobre`,
+  },
+};
 
 export default function SobrePage() {
   return (
