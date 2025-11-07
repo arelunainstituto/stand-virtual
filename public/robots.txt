@@ -1,0 +1,14 @@
+# robots.txt para Pinklegion
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.pinklegion.pt/sitemap.xml
+
+# Páginas importantes para indexar
+Allow: /viaturas
+Allow: /servicos
+Allow: /importacao
+Allow: /contactos
+Allow: /sobre
+
