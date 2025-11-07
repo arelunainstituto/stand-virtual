@@ -2,7 +2,7 @@ export const siteConfig = {
   name: 'Pinklegion',
   legalName: 'Pinklegion Automóveis, Lda.',
   description:
-    'Pinklegion - Stand de Carros Usados em Braga. Viaturas de qualidade, financiamento sem juros e atendimento especializado. Compre o seu carro seminovo com confiança.',
+    'Descubra carros usados premium em Braga. Financiamento sem juros, garantia incluída e entrega imediata. Visite a Pinklegion e encontre o carro ideal para si!',
   url: 'https://www.pinklegion.pt',
   locale: 'pt-PT',
   siteName: 'Pinklegion - Stand de Carros Usados em Braga',
