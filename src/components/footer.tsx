@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FiFacebook, FiInstagram, FiLinkedin, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 
 export function Footer() {
   return (
@@ -19,32 +19,6 @@ export function Footer() {
             <p className="text-gray-300 text-sm">
               A sua plataforma de confiança para compra e venda de viaturas usadas.
             </p>
-            <div className="flex space-x-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-stand-primary transition-colors"
-              >
-                <FiFacebook className="w-5 h-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-stand-primary transition-colors"
-              >
-                <FiInstagram className="w-5 h-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-stand-primary transition-colors"
-              >
-                <FiLinkedin className="w-5 h-5" />
-              </a>
-            </div>
           </div>
 
           {/* Quick Links */}
