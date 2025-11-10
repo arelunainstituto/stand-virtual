@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FiFacebook, FiInstagram, FiLinkedin, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 
 export function Footer() {
@@ -8,7 +9,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-stand-primary">Pinklegion</h3>
+            <Image
+              src="/images/logo pink legion.png"
+              alt="Pink Legion"
+              width={150}
+              height={50}
+              className="h-12 w-auto"
+            />
             <p className="text-gray-300 text-sm">
               A sua plataforma de confiança para compra e venda de viaturas usadas.
             </p>
