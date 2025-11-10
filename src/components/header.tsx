@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { FiMenu, FiX, FiPhone } from "react-icons/fi";
 
@@ -20,8 +21,15 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-stand-primary">
-              Pinklegion
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/logo pink legion.png"
+                alt="Pink Legion"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
             </Link>
           </div>
 

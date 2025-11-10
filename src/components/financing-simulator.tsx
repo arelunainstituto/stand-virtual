@@ -47,7 +47,7 @@ export default function FinancingSimulator({ vehiclePrice, vehicleName }: Financ
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-stand-primary to-pink-600 p-4">
+      <div className="bg-gradient-to-r from-stand-primary to-stand-dark p-4">
         <div className="flex items-center text-white">
           <FiCreditCard className="w-6 h-6 mr-2" />
           <h3 className="text-lg font-bold">Simulação de Financiamento</h3>
@@ -103,7 +103,7 @@ export default function FinancingSimulator({ vehiclePrice, vehicleName }: Financ
         </div>
 
         {/* Result Highlight */}
-        <div className="bg-gradient-to-br from-stand-primary/10 to-pink-100 p-6 rounded-lg border-2 border-stand-primary/20">
+        <div className="bg-gradient-to-br from-stand-primary/10 to-stand-primary/20 p-6 rounded-lg border-2 border-stand-primary/20">
           <div className="text-center">
             <div className="text-sm text-gray-600 mb-1">Prestação Mensal</div>
             <div className="text-4xl font-bold text-stand-primary mb-2">
