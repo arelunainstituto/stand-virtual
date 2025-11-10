@@ -84,7 +84,7 @@ export default function Home() {
               <div className="bg-stand-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiCheck className="w-8 h-8 text-stand-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Qualidade Garantida</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Qualidade Garantida</h3>
               <p className="text-gray-600">
                 Todos os veículos passam por uma inspeção rigorosa antes da venda
               </p>
@@ -94,7 +94,7 @@ export default function Home() {
               <div className="bg-stand-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiShield className="w-8 h-8 text-stand-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Garantia Incluída</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Garantia Incluída</h3>
               <p className="text-gray-600">
                 Oferecemos garantia em todos os veículos para sua tranquilidade
               </p>
@@ -104,7 +104,7 @@ export default function Home() {
               <div className="bg-stand-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiUsers className="w-8 h-8 text-stand-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Atendimento Personalizado</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Atendimento Personalizado</h3>
               <p className="text-gray-600">
                 Equipa especializada para ajudá-lo a encontrar o veículo ideal
               </p>

@@ -53,7 +53,7 @@ export default function ServicosPage() {
                 <div className="bg-stand-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                   <FiTruck className="w-8 h-8 text-stand-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Venda de Viaturas</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Venda de Viaturas</h3>
                 <p className="text-gray-600 mb-4">
                   Seleção cuidadosa de viaturas usadas com qualidade garantida,
                   inspecionadas por técnicos especializados.
@@ -70,7 +70,7 @@ export default function ServicosPage() {
                 <div className="bg-stand-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                   <FiCreditCard className="w-8 h-8 text-stand-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Financiamento</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Financiamento</h3>
                 <p className="text-gray-600 mb-4">
                   Soluções de financiamento personalizadas com as melhores condições
                   do mercado e aprovação rápida. <strong>Parcele em até 24 vezes sem juros!</strong>
@@ -102,7 +102,7 @@ export default function ServicosPage() {
                 <div className="bg-stand-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                   1
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Escolha o Veículo</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Escolha o Veículo</h3>
                 <p className="text-gray-600 text-sm">
                   Navegue pela nossa seleção e encontre o veículo que mais se adequa às suas necessidades.
                 </p>
@@ -112,7 +112,7 @@ export default function ServicosPage() {
                 <div className="bg-stand-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                   2
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Teste de Condução</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Teste de Condução</h3>
                 <p className="text-gray-600 text-sm">
                   Agende um teste de condução para experimentar o veículo em condições reais.
                 </p>
@@ -122,7 +122,7 @@ export default function ServicosPage() {
                 <div className="bg-stand-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                   3
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Negociação</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Negociação</h3>
                 <p className="text-gray-600 text-sm">
                   Discutimos as condições de venda e financiamento que melhor se adequam ao seu orçamento.
                 </p>
@@ -132,7 +132,7 @@ export default function ServicosPage() {
                 <div className="bg-stand-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                   4
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Entrega</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Entrega</h3>
                 <p className="text-gray-600 text-sm">
                   Tratamos de toda a documentação e entregamos o seu novo veículo pronto para usar.
                 </p>
