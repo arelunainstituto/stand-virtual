@@ -117,11 +117,12 @@ export async function GET() {
   try {
     const supabase = createServerSupabaseClient();
 
-    // Buscar veículos disponíveis ou reservados (excluir vendidos)
+    // Buscar veículos disponíveis ou reservados
+    // Usando .in() em vez de .neq() para evitar problemas com espaços ou caracteres invisíveis
     const { data, error } = await supabase
       .from('cars')
       .select('*')
-      .neq('status', 'vendido')
+      .in('status', ['disponivel', 'reservado'])
       .order('created_at', { ascending: false });
 
     if (error) {

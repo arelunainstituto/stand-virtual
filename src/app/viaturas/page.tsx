@@ -19,8 +19,6 @@ export default function ViaturasPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  console.log('🚀 Estado inicial:', { vehicles: vehicles.length, filteredVehicles: filteredVehicles.length, loading, error });
-  
   // Filter states
   const [filters, setFilters] = useState({
     marca: "",
@@ -59,10 +57,10 @@ export default function ViaturasPage() {
       combustivel: "",
       cambio: "",
     };
-    
+
     setFilters(clearedFilters);
     setSearchTerm("");
-    
+
     // Carregar apenas o modo de visualização salvo
     loadViewModeFromStorage();
   }, []);
@@ -178,7 +176,7 @@ export default function ViaturasPage() {
   // Handle view mode change
   const handleViewModeChange = (mode: "grid" | "list") => {
     setViewMode(mode);
-    
+
     // Salvar modo de visualização no localStorage
     try {
       localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode);
@@ -191,7 +189,6 @@ export default function ViaturasPage() {
   useEffect(() => {
     async function fetchVehicles(retryCount = 0) {
       try {
-        console.log('🚗 Iniciando busca de veículos...');
         setLoading(true);
         setError(null);
 
@@ -203,17 +200,13 @@ export default function ViaturasPage() {
           cache: 'no-store', // Evitar cache para sempre buscar dados atualizados
         });
 
-        console.log('📡 Resposta da API:', response.status, response.statusText);
-
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
-        console.log('📊 Dados recebidos:', result);
 
         if (result.success && result.vehicles) {
-          console.log(`✅ ${result.vehicles.length} veículos carregados com sucesso`);
           setVehicles(result.vehicles);
           setFilteredVehicles(result.vehicles);
         } else {
@@ -222,18 +215,16 @@ export default function ViaturasPage() {
         }
       } catch (err: any) {
         console.error('❌ Erro ao buscar veículos:', err);
-        
+
         // Tentar novamente até 2 vezes em caso de erro de rede
         if (retryCount < 2 && (err.name === 'TypeError' || err.message.includes('Failed to fetch'))) {
-          console.log(`🔄 Tentando novamente... (tentativa ${retryCount + 1})`);
           setTimeout(() => fetchVehicles(retryCount + 1), 1000);
           return;
         }
-        
+
         setError('Erro ao conectar com o servidor');
       } finally {
         setLoading(false);
-        console.log('🏁 Busca de veículos finalizada');
       }
     }
 
@@ -249,7 +240,7 @@ export default function ViaturasPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
+
       <div className="pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Page Header */}
@@ -491,15 +482,6 @@ export default function ViaturasPage() {
           {/* Vehicles Grid */}
           {!loading && !error && (
             <>
-              {(() => {
-                console.log('🎯 Renderizando veículos:', {
-                  vehiclesLength: vehicles.length,
-                  filteredVehiclesLength: filteredVehicles.length,
-                  viewMode,
-                  vehicles: vehicles.slice(0, 2) // Mostrar apenas os primeiros 2 para debug
-                });
-                return null;
-              })()}
               {filteredVehicles.length > 0 ? (
                 <VehicleGrid vehicles={filteredVehicles} viewMode={viewMode} />
               ) : (
