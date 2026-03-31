@@ -5,14 +5,14 @@ import { siteConfig } from "@/lib/site-config";
 import { FiUsers, FiAward, FiShield, FiHeart, FiStar, FiTrendingUp } from "react-icons/fi";
 
 export const metadata: Metadata = {
-  title: "Sobre a Pinklegion",
+  title: "Sobre a Shift Q",
   description:
-    "Conheça a história da Pinklegion: mais de 15 anos de experiência a vender viaturas usadas com transparência e garantia em Braga.",
+    "Conheça a história da Shift Q: mais de 15 anos de experiência a vender viaturas usadas com transparência e garantia em Braga.",
   alternates: {
     canonical: "/sobre",
   },
   openGraph: {
-    title: "Pinklegion | Stand de Automóveis em Braga",
+    title: "Shift Q | Stand de Automóveis em Braga",
     description:
       "Plataforma de referência na compra e venda de viaturas usadas com equipa experiente, inspeções rigorosas e suporte completo.",
     url: `${siteConfig.url}/sobre`,
@@ -24,12 +24,12 @@ export default function SobrePage() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <div className="pt-16">
+      <div className="pt-24">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-stand-primary to-stand-primary-dark text-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Sobre a Pinklegion
+              Sobre a Shift Q
             </h1>
             <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto">
               A sua plataforma de confiança para compra e venda de viaturas usadas, 
@@ -46,7 +46,7 @@ export default function SobrePage() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">A Nossa História</h2>
                 <div className="space-y-4 text-gray-600">
                   <p>
-                    Fundada em 2008, a Pinklegion nasceu da paixão por automóveis e do desejo
+                    Fundada em 2008, a Shift Q nasceu da paixão por automóveis e do desejo
                     de revolucionar a forma como as pessoas compram e vendem viaturas usadas.
                   </p>
                   <p>
@@ -211,7 +211,7 @@ export default function SobrePage() {
               Pronto para Encontrar o Seu Próximo Carro?
             </h2>
             <p className="text-lg text-gray-600 mb-8">
-              Junte-se aos milhares de clientes satisfeitos que confiam na Pinklegion
+              Junte-se aos milhares de clientes satisfeitos que confiam na Shift Q
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

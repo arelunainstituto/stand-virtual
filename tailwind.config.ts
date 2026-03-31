@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'stand-primary': '#8e5750',
-        'stand-dark': '#6d3f3a',
-        'stand-primary-dark': '#563129',
+        'stand-primary': '#01224d',
+        'stand-dark': '#011b3d',
+        'stand-primary-dark': '#00122b',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

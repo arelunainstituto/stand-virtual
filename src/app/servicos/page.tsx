@@ -7,12 +7,12 @@ import { FiTruck, FiCreditCard } from "react-icons/fi";
 export const metadata: Metadata = {
   title: "Serviços Automóveis e Financiamento",
   description:
-    "Conheça os serviços da Pinklegion em Braga: compra de viaturas usadas, inspeções rigorosas e financiamento até 24x sem juros.",
+    "Conheça os serviços da Shift Q em Braga: compra de viaturas usadas, inspeções rigorosas e financiamento até 24x sem juros.",
   alternates: {
     canonical: "/servicos",
   },
   openGraph: {
-    title: "Serviços Pinklegion | Financiamento e Compra de Viaturas",
+    title: "Serviços Shift Q | Financiamento e Compra de Viaturas",
     description:
       "Soluções completas para comprar o seu carro usado em Braga com inspeção técnica, garantia e financiamento sem juros.",
     url: `${siteConfig.url}/servicos`,
@@ -24,7 +24,7 @@ export default function ServicosPage() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <div className="pt-16">
+      <div className="pt-24">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-stand-primary to-stand-primary-dark text-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

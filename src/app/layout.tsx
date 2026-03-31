@@ -11,8 +11,8 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: 'Pinklegion - Stand de Carros Usados em Braga | Financiamento Sem Juros',
-    template: '%s | Pinklegion',
+    default: 'Shift Q - Stand de Carros Usados em Braga | Financiamento Sem Juros',
+    template: '%s | Shift Q',
   },
   description: siteConfig.description,
   keywords: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     'stand automóvel',
     'viaturas seminovas',
     'carros financiamento sem juros',
-    'Pinklegion',
+    'Shift Q',
     'comprar carro usado',
     'venda carros usados Portugal',
   ],
@@ -36,22 +36,22 @@ export const metadata: Metadata = {
     locale: siteConfig.locale,
     url: siteConfig.url,
     siteName: siteConfig.siteName,
-    title: 'Pinklegion - Stand de Carros Usados em Braga',
+    title: 'Shift Q - Stand de Carros Usados em Braga',
     description: siteConfig.description,
     images: [
       {
-        url: `${siteConfig.url}/images/logo%20pink%20legion.png`,
+        url: `${siteConfig.url}/logo.png`,
         width: 1200,
         height: 630,
-        alt: 'Pinklegion - Stand de Carros Usados',
+        alt: 'Shift Q - Stand de Carros Usados',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pinklegion - Stand de Carros Usados em Braga',
+    title: 'Shift Q - Stand de Carros Usados em Braga',
     description: siteConfig.description,
-    images: [`${siteConfig.url}/images/logo%20pink%20legion.png`],
+    images: [`${siteConfig.url}/logo.png`],
   },
   robots: {
     index: true,
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/images/logo pink legion.png',
+    icon: '/logo.png',
   },
 }
 

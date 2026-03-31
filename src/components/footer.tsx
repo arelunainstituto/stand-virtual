@@ -10,8 +10,8 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <Image
-              src="/images/logo pink legion.png"
-              alt="Pink Legion"
+              src="/logo.png"
+              alt="Shift Q"
               width={150}
               height={50}
               className="h-12 w-auto"
@@ -65,7 +65,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2025 Pinklegion. Todos os direitos reservados.
+            © 2025 Shift Q. Todos os direitos reservados.
           </p>
         </div>
       </div>

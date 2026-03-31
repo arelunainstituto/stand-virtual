@@ -5,16 +5,16 @@ import { siteConfig } from "@/lib/site-config";
 import { FiPhone, FiMail, FiMapPin, FiClock, FiMessageSquare } from "react-icons/fi";
 
 export const metadata: Metadata = {
-  title: "Contactos Pinklegion",
+  title: "Contactos Shift Q",
   description:
-    "Fale com a Pinklegion em Braga: telefone +351 910 048 205, email info@pinklegion.pt e atendimento personalizado no stand.",
+    "Fale com a Shift Q em Braga: telefone +351 910 048 205, email info@pinklegion.pt e atendimento personalizado no stand.",
   alternates: {
     canonical: "/contactos",
   },
   openGraph: {
-    title: "Contacte a Pinklegion | Stand de Carros em Braga",
+    title: "Contacte a Shift Q | Stand de Carros em Braga",
     description:
-      "Marque a sua visita, peça simulação de financiamento ou fale com a equipa Pinklegion através de telefone, email ou WhatsApp.",
+      "Marque a sua visita, peça simulação de financiamento ou fale com a equipa Shift Q através de telefone, email ou WhatsApp.",
     url: `${siteConfig.url}/contactos`,
   },
 };
@@ -24,7 +24,7 @@ export default function ContactosPage() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <div className="pt-16">
+      <div className="pt-24">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-stand-primary to-stand-primary-dark text-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

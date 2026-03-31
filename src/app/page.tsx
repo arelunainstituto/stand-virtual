@@ -66,7 +66,7 @@ export default function Home() {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-16 bg-gradient-to-r from-stand-primary to-stand-primary-dark text-white">
+      <section className="pt-24 bg-gradient-to-r from-stand-primary to-stand-primary-dark text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
@@ -99,7 +99,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Porquê Escolher a Pinklegion?
+              Porquê Escolher a Shift Q?
             </h2>
             <p className="text-lg text-gray-600">
               Oferecemos o melhor serviço e garantia para a sua compra

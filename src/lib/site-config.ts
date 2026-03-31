@@ -1,11 +1,11 @@
 export const siteConfig = {
-  name: 'Pinklegion',
-  legalName: 'Pinklegion Automóveis, Lda.',
+  name: 'Shift Q',
+  legalName: 'Shift Q Automóveis, Lda.',
   description:
-    'Descubra carros usados premium em Braga. Financiamento sem juros, garantia incluída e entrega imediata. Visite a Pinklegion e encontre o carro ideal para si!',
+    'Descubra carros usados premium em Braga. Financiamento sem juros, garantia incluída e entrega imediata. Visite a Shift Q e encontre o carro ideal para si!',
   url: 'https://www.pinklegion.pt',
   locale: 'pt-PT',
-  siteName: 'Pinklegion - Stand de Carros Usados em Braga',
+  siteName: 'Shift Q - Stand de Carros Usados em Braga',
   email: 'info@pinklegion.pt',
   phone: '+351910048205',
   address: {

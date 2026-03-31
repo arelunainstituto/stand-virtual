@@ -14,15 +14,15 @@ function getVehicleMeta(id: string) {
     return {
       title: `Detalhes da viatura ${id}`,
       description:
-        'Consulte detalhes completos, fotos e condições de financiamento das viaturas disponíveis na Pinklegion.',
-      image: `${siteConfig.url}/images/logo%20pink%20legion.png`,
+        'Consulte detalhes completos, fotos e condições de financiamento das viaturas disponíveis na Shift Q.',
+      image: `${siteConfig.url}/logo.png`,
     }
   }
 
   return {
     title: `${vehicle.marca} ${vehicle.modelo} ${vehicle.ano}`,
-    description: `Veja fotos, preço e características do ${vehicle.marca} ${vehicle.modelo} ${vehicle.ano} disponível na Pinklegion.`,
-    image: vehicle.imagem || `${siteConfig.url}/images/logo%20pink%20legion.png`,
+    description: `Veja fotos, preço e características do ${vehicle.marca} ${vehicle.modelo} ${vehicle.ano} disponível na Shift Q.`,
+    image: vehicle.imagem || `${siteConfig.url}/logo.png`,
   }
 }
 

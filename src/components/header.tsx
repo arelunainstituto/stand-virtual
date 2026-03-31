@@ -16,18 +16,18 @@ export function Header() {
   ];
 
   return (
-    <header className="shadow-lg fixed w-full top-0 z-50" style={{ backgroundColor: '#c1a7a3' }}>
+    <header className="shadow-lg fixed w-full top-0 z-50 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
               <Image
-                src="/images/logo pink legion.png"
-                alt="Pink Legion"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
+                src="/logo.png"
+                alt="Shift Q"
+                width={350}
+                height={120}
+                className="h-24 w-auto scale-110 sm:scale-[1.3] md:scale-[1.5] origin-left"
                 priority
               />
             </Link>

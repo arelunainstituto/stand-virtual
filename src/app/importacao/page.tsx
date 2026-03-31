@@ -7,12 +7,12 @@ import { FiUpload, FiDatabase, FiSettings, FiShield, FiZap, FiExternalLink, FiCh
 export const metadata: Metadata = {
   title: "Módulo de Importação de Viaturas",
   description:
-    "Automatize a importação e gestão de dados de viaturas com o módulo avançado da Pinklegion, incluindo validações e integrações.",
+    "Automatize a importação e gestão de dados de viaturas com o módulo avançado da Shift Q, incluindo validações e integrações.",
   alternates: {
     canonical: "/importacao",
   },
   openGraph: {
-    title: "Importação de Dados Pinklegion",
+    title: "Importação de Dados Shift Q",
     description:
       "Ferramentas para importar, validar e gerir grandes volumes de viaturas com segurança e desempenho.",
     url: `${siteConfig.url}/importacao`,
@@ -24,7 +24,7 @@ export default function ImportacaoPage() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <div className="pt-16">
+      <div className="pt-24">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-stand-primary to-stand-primary-dark text-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
