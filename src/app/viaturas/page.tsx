@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { VehicleGrid } from "@/components/vehicle-grid";
 import { Vehicle } from "@/data/mock-vehicles";
 import { FiFilter, FiGrid, FiList, FiSearch, FiX } from "react-icons/fi";
+import { supabase } from "@/lib/supabase";
 
 // Storage key for view mode persistence
 const VIEW_MODE_STORAGE_KEY = "viaturas_view_mode";
@@ -18,6 +19,8 @@ export default function ViaturasPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [updated, setUpdated] = useState(false);
+  const updatedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Filter states
   const [filters, setFilters] = useState({
@@ -186,50 +189,76 @@ export default function ViaturasPage() {
   };
 
   // Buscar veículos do Supabase
-  useEffect(() => {
-    async function fetchVehicles(retryCount = 0) {
-      try {
+  const fetchVehicles = useCallback(async (isRealtime = false, retryCount = 0) => {
+    try {
+      if (!isRealtime) {
         setLoading(true);
         setError(null);
-
-        const response = await fetch('/api/vehicles', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          cache: 'no-store', // Evitar cache para sempre buscar dados atualizados
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.success && result.vehicles) {
-          setVehicles(result.vehicles);
-          setFilteredVehicles(result.vehicles);
-        } else {
-          console.error('❌ Erro na resposta da API:', result.error);
-          setError(result.error || 'Erro ao carregar veículos');
-        }
-      } catch (err: any) {
-        console.error('❌ Erro ao buscar veículos:', err);
-
-        // Tentar novamente até 2 vezes em caso de erro de rede
-        if (retryCount < 2 && (err.name === 'TypeError' || err.message.includes('Failed to fetch'))) {
-          setTimeout(() => fetchVehicles(retryCount + 1), 1000);
-          return;
-        }
-
-        setError('Erro ao conectar com o servidor');
-      } finally {
-        setLoading(false);
       }
-    }
 
-    fetchVehicles();
+      const response = await fetch('/api/vehicles', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        cache: 'no-store',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success && result.vehicles) {
+        setVehicles(result.vehicles);
+        setFilteredVehicles(result.vehicles);
+
+        if (isRealtime) {
+          setUpdated(true);
+          if (updatedTimer.current) clearTimeout(updatedTimer.current);
+          updatedTimer.current = setTimeout(() => setUpdated(false), 3000);
+        }
+      } else {
+        console.error('❌ Erro na resposta da API:', result.error);
+        if (!isRealtime) setError(result.error || 'Erro ao carregar veículos');
+      }
+    } catch (err: any) {
+      console.error('❌ Erro ao buscar veículos:', err);
+
+      if (retryCount < 2 && (err.name === 'TypeError' || err.message.includes('Failed to fetch'))) {
+        setTimeout(() => fetchVehicles(isRealtime, retryCount + 1), 1000);
+        return;
+      }
+
+      if (!isRealtime) setError('Erro ao conectar com o servidor');
+    } finally {
+      if (!isRealtime) setLoading(false);
+    }
   }, []);
+
+  // Fetch inicial
+  useEffect(() => {
+    fetchVehicles();
+  }, [fetchVehicles]);
+
+  // Subscrição Realtime — escuta mudanças em 'cars' e 'car_photos'
+  useEffect(() => {
+    const channel = supabase
+      .channel('viaturas-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'cars' }, () => {
+        fetchVehicles(true);
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'car_photos' }, () => {
+        fetchVehicles(true);
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+      if (updatedTimer.current) clearTimeout(updatedTimer.current);
+    };
+  }, [fetchVehicles]);
+
+
 
   useEffect(() => {
     if (vehicles.length > 0) {
@@ -245,7 +274,17 @@ export default function ViaturasPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Page Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Viaturas</h1>
+            <div className="flex items-center gap-3 mb-4">
+              <h1 className="text-3xl font-bold text-gray-900">Viaturas</h1>
+              {/* Badge de actualização em tempo real */}
+              <div
+                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 transition-opacity duration-500 ${updated ? 'opacity-100' : 'opacity-0'}`}
+                aria-live="polite"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                Actualizado
+              </div>
+            </div>
             <p className="text-lg text-gray-600">
               Descubra a nossa seleção de veículos usados com qualidade garantida
             </p>

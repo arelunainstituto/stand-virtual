@@ -1,38 +1,65 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { VehicleCard } from "@/components/vehicle-card";
 import { Vehicle } from "@/data/mock-vehicles";
 import { FiArrowRight, FiCheck, FiStar, FiUsers, FiTruck, FiShield, FiCreditCard, FiPercent } from "react-icons/fi";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
 export default function Home() {
   const [featuredVehicles, setFeaturedVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
+  const [updated, setUpdated] = useState(false);
+  const updatedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    async function fetchVehicles() {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/vehicles');
-        const result = await response.json();
+  const fetchVehicles = useCallback(async (isRealtime = false) => {
+    try {
+      if (!isRealtime) setLoading(true);
+      const response = await fetch('/api/vehicles', { cache: 'no-store' });
+      const result = await response.json();
 
-        if (result.success && result.vehicles) {
-          // Filtrar apenas disponíveis e pegar os primeiros 6
-          const available = result.vehicles.filter((v: Vehicle) => v.status === "disponivel").slice(0, 6);
-          setFeaturedVehicles(available);
+      if (result.success && result.vehicles) {
+        const available = result.vehicles.filter((v: Vehicle) => v.status === "disponivel").slice(0, 6);
+        setFeaturedVehicles(available);
+
+        if (isRealtime) {
+          setUpdated(true);
+          if (updatedTimer.current) clearTimeout(updatedTimer.current);
+          updatedTimer.current = setTimeout(() => setUpdated(false), 3000);
         }
-      } catch (err) {
-        console.error('Erro ao buscar veículos:', err);
-      } finally {
-        setLoading(false);
       }
+    } catch (err) {
+      console.error('Erro ao buscar veículos:', err);
+    } finally {
+      if (!isRealtime) setLoading(false);
     }
-
-    fetchVehicles();
   }, []);
+
+  // Fetch inicial
+  useEffect(() => {
+    fetchVehicles();
+  }, [fetchVehicles]);
+
+  // Subscrição Realtime — escuta mudanças em 'cars' e 'car_photos'
+  useEffect(() => {
+    const channel = supabase
+      .channel('home-vehicles-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'cars' }, () => {
+        fetchVehicles(true);
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'car_photos' }, () => {
+        fetchVehicles(true);
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+      if (updatedTimer.current) clearTimeout(updatedTimer.current);
+    };
+  }, [fetchVehicles]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -162,14 +189,23 @@ export default function Home() {
       {/* Featured Vehicles */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 relative">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Viaturas em Destaque
             </h2>
             <p className="text-lg text-gray-600">
               Descubra a nossa seleção de veículos mais procurados
             </p>
+            {/* Badge de actualização em tempo real */}
+            <div
+              className={`inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 transition-opacity duration-500 ${updated ? 'opacity-100' : 'opacity-0'}`}
+              aria-live="polite"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              Actualizado
+            </div>
           </div>
+
           
           {loading ? (
             <div className="flex justify-center items-center py-20">

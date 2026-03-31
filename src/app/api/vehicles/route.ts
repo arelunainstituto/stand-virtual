@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase';
 
+// Garante que a Next.js nunca faz cache estático desta route
+export const dynamic = 'force-dynamic';
+
 // Interface para o formato da tabela cars do Supabase
 interface CarFromDB {
   id: string;
@@ -187,11 +190,18 @@ export async function GET() {
       });
     }
 
-    return NextResponse.json({
-      success: true,
-      vehicles,
-      count: vehicles.length,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        vehicles,
+        count: vehicles.length,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, max-age=0',
+        },
+      }
+    );
   } catch (error: any) {
     console.error('Erro no servidor:', error);
     return NextResponse.json(
