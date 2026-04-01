@@ -9,13 +9,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <Image
-              src="/logo.png"
-              alt="Shift Q"
-              width={150}
-              height={50}
-              className="h-12 w-auto"
-            />
+            <div className="py-6">
+              <Image
+                src="/logo.png"
+                alt="Shift Q"
+                width={300}
+                height={96}
+                className="h-24 w-auto transform scale-[1.8] origin-left"
+              />
+            </div>
             <p className="text-gray-300 text-sm">
               A sua plataforma de confiança para compra e venda de viaturas usadas.
             </p>
