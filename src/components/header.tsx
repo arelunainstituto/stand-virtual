@@ -23,11 +23,11 @@ export function Header() {
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
               <Image
-                src="/logo.png"
+                src="/Preto.png"
                 alt="Shift Q"
-                width={350}
-                height={120}
-                className="h-24 w-auto scale-110 sm:scale-[1.3] md:scale-[1.5] origin-left"
+                width={160}
+                height={48}
+                className="h-8 sm:h-10 w-auto"
                 priority
               />
             </Link>

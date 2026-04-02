@@ -15,14 +15,14 @@ function getVehicleMeta(id: string) {
       title: `Detalhes da viatura ${id}`,
       description:
         'Consulte detalhes completos, fotos e condições de financiamento das viaturas disponíveis na Shift Q.',
-      image: `${siteConfig.url}/logo.png`,
+      image: `${siteConfig.url}/Preto.png`,
     }
   }
 
   return {
     title: `${vehicle.marca} ${vehicle.modelo} ${vehicle.ano}`,
     description: `Veja fotos, preço e características do ${vehicle.marca} ${vehicle.modelo} ${vehicle.ano} disponível na Shift Q.`,
-    image: vehicle.imagem || `${siteConfig.url}/logo.png`,
+    image: vehicle.imagem || `${siteConfig.url}/Preto.png`,
   }
 }
 

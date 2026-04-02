@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: `${siteConfig.url}/logo.png`,
+        url: `${siteConfig.url}/Preto.png`,
         width: 1200,
         height: 630,
         alt: 'Shift Q - Stand de Carros Usados',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Shift Q - Stand de Carros Usados em Braga',
     description: siteConfig.description,
-    images: [`${siteConfig.url}/logo.png`],
+    images: [`${siteConfig.url}/Preto.png`],
   },
   robots: {
     index: true,
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/logo.png',
+    icon: '/Preto.png',
   },
 }
 

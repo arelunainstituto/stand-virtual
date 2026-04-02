@@ -11,11 +11,11 @@ export function Footer() {
           <div className="space-y-4">
             <div className="py-6">
               <Image
-                src="/logo.png"
+                src="/branco.png"
                 alt="Shift Q"
-                width={300}
-                height={96}
-                className="h-24 w-auto transform scale-[1.8] origin-left"
+                width={160}
+                height={48}
+                className="h-10 w-auto"
               />
             </div>
             <p className="text-gray-300 text-sm">
